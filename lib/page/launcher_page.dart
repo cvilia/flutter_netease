@@ -13,7 +13,6 @@ class LauncherPage extends GetView<LauncherController> {
           end: Alignment.bottomRight,
           colors: [
             Colors.orangeAccent,
-            Colors.orange,
             Colors.deepOrangeAccent,
           ],
         ),

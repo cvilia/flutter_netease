@@ -1,6 +1,6 @@
-import 'file:///F:/flutter_project/flutter_netease/lib/page/home/home_page.dart';
 import 'package:flutter_netease/page/launcher_page.dart';
 import 'package:get/get.dart';
+import '../page/home/home_page.dart';
 
 class AppPages {
   static const String INITIAL = Routes.LAUNCHER;
