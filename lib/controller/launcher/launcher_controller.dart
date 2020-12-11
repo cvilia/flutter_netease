@@ -1,6 +1,8 @@
 import 'dart:async';
 
+import 'package:flutter_netease/config/constant.dart';
 import 'package:flutter_netease/route/app_pages.dart';
+import 'package:flutter_netease/util/sp_util.dart';
 import 'package:get/get.dart';
 
 class LauncherController extends GetxController {
@@ -10,12 +12,15 @@ class LauncherController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+    _timer = Timer.periodic(Duration(seconds: 1), (timer) async {
       count.value++;
       if (count.value == 3) {
         timer.cancel();
-        // Get.toNamed(Routes.HOME);
-        Get.offNamed(Routes.HOME);
+        String userName = await SpUtil.getString(Constant.SP_USER_NICK_NAME);
+        if (userName==null) {
+        } else {
+          Get.offNamed(Routes.HOME);
+        }
       }
     });
   }
