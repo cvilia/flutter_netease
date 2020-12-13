@@ -1,4 +1,5 @@
 import 'package:flutter_netease/page/launcher_page.dart';
+import 'package:flutter_netease/page/login_page.dart';
 import 'package:get/get.dart';
 import '../page/home/home_page.dart';
 
@@ -8,10 +9,12 @@ class AppPages {
   static List<GetPage> routes = [
     GetPage(name: INITIAL, page: ()=>LauncherPage()),
     GetPage(name: Routes.HOME, page: ()=>HomePage()),
+    GetPage(name: Routes.LOGIN, page: ()=>LoginPage())
   ];
 }
 
 abstract class Routes {
-  static const String LAUNCHER = "/launcher";
-  static const String HOME = "-home";
+  static const String LAUNCHER = '/launcher';
+  static const String HOME = '-home';
+  static const String LOGIN = '-login';
 }

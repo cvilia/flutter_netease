@@ -3,12 +3,15 @@
     <!--    <item android:drawable="@android:color/white" />-->
     <item>
         <shape>
-            <solid android:color="#ef0b18" />
+            <gradient
+                android:angle="-90"
+                android:endColor="#FF9800"
+                android:startColor="#FF6E40" />
         </shape>
     </item>
 
     <!-- You can insert your own image assets here -->
-    <item>
-        <bitmap android:src="@mipmap/app_icon"  android:gravity="center"/>
-    </item>
+    <!--    <item>-->
+    <!--        <bitmap android:src="@mipmap/app_icon"  android:gravity="center"/>-->
+    <!--    </item>-->
 </layer-list>

@@ -17,7 +17,8 @@ class LauncherController extends GetxController {
       if (count.value == 3) {
         timer.cancel();
         String userName = await SpUtil.getString(Constant.SP_USER_NICK_NAME);
-        if (userName==null) {
+        if (userName == null) {
+          Get.offNamed(Routes.LOGIN);
         } else {
           Get.offNamed(Routes.HOME);
         }
