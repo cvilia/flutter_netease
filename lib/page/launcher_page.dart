@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_netease/controller/launcher_controller.dart';
 import 'package:flutter_netease/widget/app_background.dart';
-import 'file:///F:/flutter_project/flutter_netease/lib/controller/launcher_controller.dart';
 import 'package:get/get.dart';
 
 class LauncherPage extends GetView<LauncherController> {

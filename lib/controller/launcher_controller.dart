@@ -14,7 +14,7 @@ class LauncherController extends GetxController {
     super.onInit();
     _timer = Timer.periodic(Duration(seconds: 1), (timer) async {
       count.value++;
-      if (count.value == 3) {
+      if (count.value == 1) {
         timer.cancel();
         String userName = await SpUtil.getString(Constant.SP_USER_NICK_NAME);
         if (userName == null) {
@@ -25,6 +25,7 @@ class LauncherController extends GetxController {
       }
     });
   }
+
 
   @override
   void onClose() {
