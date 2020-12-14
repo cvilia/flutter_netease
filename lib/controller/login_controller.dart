@@ -3,8 +3,7 @@ import 'package:flutter_netease/util/text_utils.dart';
 import 'package:flutter_netease/widget/message_button_dialog.dart';
 import 'package:get/get.dart';
 
-class LoginController extends GetxController
-    with StateMixin, SingleGetTickerProviderMixin {
+class LoginController extends GetxController with StateMixin, SingleGetTickerProviderMixin {
   var loginTapDown = Colors.transparent.obs;
 
   TextEditingController accountController;
@@ -23,27 +22,26 @@ class LoginController extends GetxController
   }
 
   void click2Login(BuildContext context) async {
-    String account =
-        isPhone.value ? accountController.text : emailController.text;
+    String account = isPhone.value ? accountController.text : emailController.text;
     String password = passwordController.text;
     if (TextUtils.isEmpty(account)) {
       await showDialog(
           context: context,
           barrierDismissible: false,
           builder: (ctx) => MessageButtonDialog(
-              message: isPhone.value ? '请输入手机号' : '请输入网易邮箱账号',
-              fc: () => Get.back()));
+              message: isPhone.value ? '请输入手机号' : '请输入网易邮箱账号', fc: () => Get.back()));
       return;
     }
     if (TextUtils.isEmpty(password)) {
       await showDialog(
           context: context,
           barrierDismissible: false,
-          builder: (ctx) =>
-              MessageButtonDialog(message: '请输入密码', fc: () => Get.back()));
+          builder: (ctx) => MessageButtonDialog(message: '请输入密码', fc: () => Get.back()));
       return;
     }
-    String encrptyPassword = TextUtils().
+    String encryptPassword = TextUtils.toMd5(password);
+
+
   }
 
   @override
