@@ -1,5 +1,6 @@
 class Constant {
   ///User相关
+  static const String SP_USER_LOGIN = 'user_login';
   static const String SP_USER_PHONE = 'user_phone';
   static const String SP_USER_MAIL = 'user_mail';
   static const String SP_USER_NICK_NAME = 'user_nick_name';

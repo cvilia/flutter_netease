@@ -30,10 +30,10 @@ dependencies:
   cupertino_icons: ^1.0.0
   get: ^3.22.2
   shared_preferences: ^0.5.12+4
-  http: ^0.12.2
+  dio: ^3.0.10
   permission_handler: ^5.0.1+1
-  fluttertoast: ^7.1.5
   crypto: ^2.1.5
+  percent_indicator: ^2.1.8
 
 dev_dependencies:
   flutter_test:

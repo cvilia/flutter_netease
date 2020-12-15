@@ -20,7 +20,7 @@ class LoginPage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
-                  width: 150,
+                  width: 120,
                   child: TabBar(
                     controller: controller.tabController,
                     indicator: const BoxDecoration(),
@@ -52,6 +52,9 @@ class LoginPage extends StatelessWidget {
                     child: Obx(
                       //如果要相应controller中的变量值的变化，就需要用Obx进行包裹
                       () => TextField(
+                        focusNode: controller.isPhone.value
+                            ? controller.phoneNode
+                            : controller.emailNode,
                         controller: controller.isPhone.value
                             ? controller.accountController
                             : controller.emailController,
@@ -82,6 +85,7 @@ class LoginPage extends StatelessWidget {
                         border: Border(
                             bottom: BorderSide(color: Colors.white, width: 1))),
                     child: TextField(
+                      focusNode: controller.passwordNode,
                       controller: controller.passwordController,
                       keyboardType: TextInputType.text,
                       obscureText: true,
@@ -121,7 +125,7 @@ class LoginPage extends StatelessWidget {
                             fontWeight: FontWeight.w600),
                       ),
                     ),
-                    onTap: ()=>controller.click2Login(context),
+                    onTap: () => controller.click2Login(context),
                   ),
                 )
               ],

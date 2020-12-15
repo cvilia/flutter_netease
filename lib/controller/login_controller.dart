@@ -1,14 +1,27 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_netease/config/constant.dart';
+import 'package:flutter_netease/http/api.dart';
+import 'package:flutter_netease/http/dio_helper.dart';
+import 'package:flutter_netease/route/app_pages.dart';
+import 'package:flutter_netease/util/sp_util.dart';
 import 'package:flutter_netease/util/text_utils.dart';
+import 'package:flutter_netease/widget/loading_dialog.dart';
 import 'package:flutter_netease/widget/message_button_dialog.dart';
 import 'package:get/get.dart';
+import 'package:permission_handler/permission_handler.dart';
 
-class LoginController extends GetxController with StateMixin, SingleGetTickerProviderMixin {
+class LoginController extends GetxController
+    with StateMixin, SingleGetTickerProviderMixin {
   var loginTapDown = Colors.transparent.obs;
 
   TextEditingController accountController;
   TextEditingController passwordController;
   TextEditingController emailController;
+  FocusNode phoneNode = FocusNode();
+  FocusNode emailNode = FocusNode();
+  FocusNode passwordNode = FocusNode();
 
   TabController tabController;
 
@@ -22,26 +35,51 @@ class LoginController extends GetxController with StateMixin, SingleGetTickerPro
   }
 
   void click2Login(BuildContext context) async {
-    String account = isPhone.value ? accountController.text : emailController.text;
+    String account =
+        isPhone.value ? accountController.text : emailController.text;
     String password = passwordController.text;
     if (TextUtils.isEmpty(account)) {
-      await showDialog(
-          context: context,
-          barrierDismissible: false,
-          builder: (ctx) => MessageButtonDialog(
-              message: isPhone.value ? '请输入手机号' : '请输入网易邮箱账号', fc: () => Get.back()));
+      Get.dialog(MessageButtonDialog(
+          message: isPhone.value ? '请输入手机号' : '请输入网易邮箱账号',
+          onTap: () => Get.back()));
       return;
     }
     if (TextUtils.isEmpty(password)) {
-      await showDialog(
-          context: context,
-          barrierDismissible: false,
-          builder: (ctx) => MessageButtonDialog(message: '请输入密码', fc: () => Get.back()));
+      Get.dialog(
+          MessageButtonDialog(message: '请输入密码', onTap: () => Get.back()));
       return;
     }
     String encryptPassword = TextUtils.toMd5(password);
 
+    Get.dialog(LoadingDialog());
+    if (isPhone.value) {
+      //手机登录
+      await dioHelper.get(Api.LOGIN_BY_PHONE,
+          params: {'phone': account, 'md5_password': encryptPassword},
+          callBack: (response) => route2App(response));
+    } else {
+      //邮箱登录
+      await dioHelper.get(Api.LOGIN_BY_MAIL,
+          params: {'email': account, 'md5_password': encryptPassword},
+          callBack: (response) => route2App(response));
+    }
+  }
 
+  void route2App(response) async{
+    Get.back();
+    if (response == null) {
+      Get.dialog(
+          MessageButtonDialog(message: '登录失败，请检查网络', onTap: () => Get.back()));
+    } else {
+      var json = jsonDecode(response.data.toString());
+      if (json['code'] == 200) {
+        await SpUtil.putBoolean(Constant.SP_USER_LOGIN, true);
+        Get.offNamed(Routes.HOME);
+      } else {
+        Get.dialog(
+            MessageButtonDialog(message: json['msg'], onTap: () => Get.back()));
+      }
+    }
   }
 
   @override
@@ -52,11 +90,21 @@ class LoginController extends GetxController with StateMixin, SingleGetTickerPro
     passwordController = TextEditingController();
     emailController = TextEditingController();
     tabController = TabController(length: 2, vsync: this);
-
-    // animationController = AnimationController(
-    //     duration: const Duration(milliseconds: 800), vsync: this);
-    // curve = CurvedAnimation(parent: animationController, curve: Curves.easeOut);
-    // Animation<int> alpha = new IntTween(begin: 0, end: 255).animate(curve);
+    phoneNode.addListener(() async {
+      if (phoneNode.hasPrimaryFocus) {
+        await Permission.phone.request();
+      }
+    });
+    emailNode.addListener(() async {
+      if (emailNode.hasPrimaryFocus) {
+        await Permission.phone.request();
+      }
+    });
+    passwordNode.addListener(() async {
+      if (passwordNode.hasFocus) {
+        await Permission.phone.request();
+      }
+    });
   }
 
   @override

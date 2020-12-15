@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 class MessageButtonDialog extends StatelessWidget {
   final String message;
   final String buttonText;
-  final Function fc;
+  final Function onTap;
 
   MessageButtonDialog(
-      {@required this.message, this.buttonText = '确定', this.fc});
+      {@required this.message, this.buttonText = '确定', this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +15,7 @@ class MessageButtonDialog extends StatelessWidget {
       body: Center(
         child: Container(
           width: 240,
-          height: 120,
+          height: 130,
           decoration: BoxDecoration(
               color: Colors.white, borderRadius: BorderRadius.circular(10)),
           child: Column(
@@ -37,7 +37,7 @@ class MessageButtonDialog extends StatelessWidget {
               ),
               Expanded(
                 child: GestureDetector(
-                  onTap: fc,
+                  onTap: onTap,
                   child: Container(
                     decoration: BoxDecoration(
                         color: Colors.white,

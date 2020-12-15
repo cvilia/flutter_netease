@@ -64,6 +64,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "1.0.0"
+  dio:
+    dependency: "direct main"
+    description:
+      name: dio
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "3.0.10"
   fake_async:
     dependency: transitive
     description:
@@ -100,13 +107,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  fluttertoast:
-    dependency: "direct main"
-    description:
-      name: fluttertoast
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "7.1.5"
   get:
     dependency: "direct main"
     description:
@@ -114,13 +114,6 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "3.22.2"
-  http:
-    dependency: "direct main"
-    description:
-      name: http
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "0.12.2"
   http_parser:
     dependency: transitive
     description:
@@ -177,13 +170,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "0.0.4+3"
-  pedantic:
-    dependency: transitive
+  percent_indicator:
+    dependency: "direct main"
     description:
-      name: pedantic
+      name: percent_indicator
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "1.9.2"
+    version: "2.1.8"
   permission_handler:
     dependency: "direct main"
     description:
