@@ -1,4 +1,4 @@
-package com.cvilia.flutter_netease
+package com.cvilia.bubblemusic
 
 import io.flutter.embedding.android.FlutterActivity
 
