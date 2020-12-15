@@ -20,11 +20,8 @@ class LauncherController extends GetxController {
       if (count.value == 1) {
         timer.cancel();
         var permissionStatus = Permission.storage.request();
-
         if (await permissionStatus.isGranted) {
-          await SpUtil.getBool(Constant.SP_USER_LOGIN)
-              ? Get.offNamed(Routes.HOME)
-              : Get.offNamed(Routes.LOGIN);
+          route2App();
         } else if (await permissionStatus.isPermanentlyDenied) {
           Get.dialog(MessageButtonDialog(
             message: '气泡音乐即将跳转设置页面',
@@ -32,9 +29,7 @@ class LauncherController extends GetxController {
               Get.back();
               openAppSettings().then((value) async {
                 if (await permissionStatus.isGranted) {
-                  await SpUtil.getBool(Constant.SP_USER_LOGIN)
-                      ? Get.offNamed(Routes.HOME)
-                      : Get.offNamed(Routes.LOGIN);
+                  route2App();
                 } else {
                   SystemChannels.platform.invokeMethod('SystemNavigator.pop');
                 }
@@ -46,6 +41,15 @@ class LauncherController extends GetxController {
         }
       }
     });
+  }
+
+  void route2App() async {
+    bool hasLogin = await SpUtil.getBool(Constant.SP_USER_LOGIN);
+    if (hasLogin == null || !hasLogin) {
+      Get.offNamed(Routes.LOGIN);
+    } else {
+      Get.offNamed(Routes.HOME);
+    }
   }
 
   @override
