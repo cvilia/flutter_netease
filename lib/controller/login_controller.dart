@@ -56,16 +56,18 @@ class LoginController extends GetxController
       //手机登录
       await dioHelper.get(Api.LOGIN_BY_PHONE,
           params: {'phone': account, 'md5_password': encryptPassword},
-          callBack: (response) => route2App(response));
+          callBack: (response) =>
+              route2App(response, encryptPassword, account));
     } else {
       //邮箱登录
       await dioHelper.get(Api.LOGIN_BY_MAIL,
           params: {'email': account, 'md5_password': encryptPassword},
-          callBack: (response) => route2App(response));
+          callBack: (response) =>
+              route2App(response, encryptPassword, account));
     }
   }
 
-  void route2App(response) async{
+  void route2App(response, encryptPassword, account) async {
     Get.back();
     if (response == null) {
       Get.dialog(
@@ -73,7 +75,7 @@ class LoginController extends GetxController
     } else {
       var json = jsonDecode(response.data.toString());
       if (json['code'] == 200) {
-        await SpUtil.putBoolean(Constant.SP_USER_LOGIN, true);
+        saveUserInfo(json, encryptPassword, account);
         Get.offNamed(Routes.HOME);
       } else {
         Get.dialog(
@@ -116,5 +118,13 @@ class LoginController extends GetxController
     emailController.dispose();
     tabController.dispose();
     // animationController.dispose();
+  }
+
+  void saveUserInfo(json, encryptPassword, account) async {
+    await SpUtil.putBoolean(Constant.SP_USER_LOGIN, true);
+    await SpUtil.putString(Constant.SP_USER_ID, json['account']['id'].toString());
+    await SpUtil.putString(
+        Constant.SP_USER_NICK_NAME, json['profile']['nickname']);
+    await SpUtil.putString(Constant.SP_USER_MD5_PASSWORD, encryptPassword);
   }
 }

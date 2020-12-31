@@ -6,9 +6,9 @@ class SpUtil {
     return sp.getString(key);
   }
 
-  static Future<bool> getBool(String key) async {
+  static Future<bool> getBool(String key, bool defaultValue) async {
     SharedPreferences sp = await SharedPreferences.getInstance();
-    return sp.getBool(key);
+    return sp.getBool(key) ?? defaultValue;
   }
 
   static Future<int> getInt(String key) async {

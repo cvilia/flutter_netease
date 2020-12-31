@@ -1,62 +1,107 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_netease/config/colours.dart';
+import 'package:flutter_netease/controller/home/home_page_controller.dart';
 import 'package:flutter_netease/page/home/discover/discover_page.dart';
 import 'package:flutter_netease/page/home/first/first_page.dart';
 import 'package:flutter_netease/page/home/my/my_page.dart';
-import 'package:flutter_netease/page/home/play/play_page.dart';
 import 'package:flutter_netease/page/home/video/video_page.dart';
-import 'file:///F:/flutter_project/flutter_netease/lib/controller/home/home_page_controller.dart';
+import 'package:flutter_netease/route/app_pages.dart';
 import 'package:flutter_netease/widget/app_background.dart';
 import 'package:get/get.dart';
 
-List<Widget> pages = [FirstPage(), DiscoverPage(), PlayPage(), VideoPage(), MyPage()];
+List<Widget> pages = [FirstPage(), DiscoverPage(), VideoPage(), MyPage()];
 
 class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var controller = Get.put(HomePageController());
     return AppBackground(
-      child: Obx(() => Scaffold(
-            backgroundColor: Colors.transparent,
-            bottomNavigationBar: BottomNavigationBar(
-              backgroundColor: Colors.orange.withOpacity(0.6),
-              currentIndex: controller.currentIndex.value,
-              type: BottomNavigationBarType.fixed,
-              unselectedItemColor: Colors.black.withOpacity(0.3),
-              unselectedLabelStyle: TextStyle(
-                color: Colors.black.withOpacity(0.3),
-              ),
-              selectedItemColor: Colors.white,
-              items: <BottomNavigationBarItem>[
-                BottomNavigationBarItem(icon: Icon(Icons.music_note), label: '首页'),
-                BottomNavigationBarItem(icon: Icon(Icons.find_in_page), label: '发现'),
-                BottomNavigationBarItem(icon: Icon(null), label: ''),
-                BottomNavigationBarItem(icon: Icon(Icons.video_call), label: '视频'),
-                BottomNavigationBarItem(icon: Icon(Icons.person), label: '我的'),
+      child: Obx(
+        () => Scaffold(
+          backgroundColor: Colors.transparent,
+          bottomNavigationBar: BottomAppBar(
+            color: Colours.app_main_background,
+            shape: CircularNotchedRectangle(),
+            child: Row(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                BottomBarItem(
+                  icon: Icons.music_note,
+                  label: '首页',
+                  color: controller.currentIndex.value == 0
+                      ? Colours.app_main
+                      : Colours.text_hint,
+                  onTap: () => controller.currentIndex.value = 0,
+                ),
+                Padding(
+                  padding: EdgeInsets.only(right: 45),
+                  child: BottomBarItem(
+                      icon: Icons.find_in_page,
+                      label: '发现',
+                      color: controller.currentIndex.value == 1
+                          ? Colours.app_main
+                          : Colours.text_hint,
+                      onTap: () => controller.currentIndex.value = 1),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(left: 45),
+                  child: BottomBarItem(
+                      icon: Icons.video_call,
+                      label: '视频',
+                      color: controller.currentIndex.value == 2
+                          ? Colours.app_main
+                          : Colours.text_hint,
+                      onTap: () => controller.currentIndex.value = 2),
+                ),
+                BottomBarItem(
+                    icon: Icons.person,
+                    label: '我的',
+                    color: controller.currentIndex.value == 3
+                        ? Colours.app_main
+                        : Colours.text_hint,
+                    onTap: () => controller.currentIndex.value = 3),
               ],
-              onTap: (index) => controller.pageController.jumpToPage(index),
             ),
-            floatingActionButton: FloatingActionButton(
-              backgroundColor: Colors.deepOrangeAccent,
-              onPressed: () => controller.pageController.jumpToPage(2),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(
-                    Icons.play_arrow,
-                    size: 28,
-                    color: Colors.white,
-                  )
-                ],
-              ),
-            ),
-            floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-            body: PageView.builder(
-                controller: controller.pageController,
-                itemCount: pages.length,
-                physics: NeverScrollableScrollPhysics(),
-                onPageChanged: (index) => controller.currentIndex.value = index,
-                itemBuilder: (ctx, index) => pages[index]),
-          )),
+          ),
+          floatingActionButton: FloatingActionButton(
+            backgroundColor: Colours.app_main_background,
+            onPressed: () => Get.toNamed(Routes.PLAY_PAGE),
+            child: Icon(Icons.play_arrow, size: 28, color: Colors.white),
+          ),
+          floatingActionButtonLocation:
+              FloatingActionButtonLocation.centerDocked,
+          body: pages[controller.currentIndex.value],
+        ),
+      ),
+    );
+  }
+}
+
+class BottomBarItem extends StatelessWidget {
+  final IconData icon;
+  final String label;
+  final Color color;
+  final Function onTap;
+
+  BottomBarItem({this.icon, this.label, this.color, this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        color: Colours.app_main_background,
+        padding: EdgeInsets.symmetric(vertical: 8),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(icon, color: color),
+            Text(label, style: TextStyle(color: color))
+          ],
+        ),
+      ),
     );
   }
 }

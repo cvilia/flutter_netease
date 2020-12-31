@@ -6,6 +6,12 @@ class HomePageController extends GetxController {
 
   PageController pageController;
 
+  void onPressBottomBar(int index){
+    if(index == 0){
+
+    }
+  }
+
   @override
   void onInit() {
     super.onInit();
