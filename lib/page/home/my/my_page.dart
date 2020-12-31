@@ -12,9 +12,7 @@ class MyPage extends GetView<MyPageController> {
       behavior: MyBehavior(),
       child: CustomScrollView(
         slivers: [
-          SliverToBoxAdapter(
-            child: HeaderView(),
-          )
+          SliverToBoxAdapter(child: HeaderView()),
         ],
       ),
     );
