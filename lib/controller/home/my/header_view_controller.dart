@@ -16,7 +16,7 @@ class HeaderViewController extends GetxController {
     super.onInit();
     String uid = await SpUtil.getString(Constant.SP_USER_ID);
     dioHelper.get(
-      Api.DISCOVER_USER_DETAIL,
+      Api.MY_USER_DETAIL,
       params: {'uid': uid},
       callBack: (response) {
         if (response != null) {

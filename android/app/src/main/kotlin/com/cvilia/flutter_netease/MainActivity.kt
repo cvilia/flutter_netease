@@ -23,7 +23,7 @@ class MainActivity : FlutterActivity() {
                 when (method) {
 //                    "logd" -> Log.d(params["tag"], params["message"])
 //                    "logv" -> Log.v(params["tag"], params["message"])
-                    "play"->startActivity(Intent(this,Test::class.java))
+                    "play" -> startActivity(Intent(this, Test::class.java))
                     else -> Log.d("MainActivity", "参数错误")
                 }
             }

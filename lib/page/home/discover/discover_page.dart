@@ -2,7 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_netease/config/colours.dart';
-import 'package:flutter_netease/controller/home/discover_page_controller.dart';
+import 'package:flutter_netease/controller/home/discover/discover_page_controller.dart';
 import 'package:flutter_netease/widget/hide_keyboard.dart';
 import 'package:get/get.dart';
 

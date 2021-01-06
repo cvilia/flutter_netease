@@ -9,10 +9,13 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
-        android:name="io.flutter.app.FlutterApplication"
+        android:name=".NeteaseApplication"
         android:icon="@mipmap/app_icon"
-        android:label="气泡音乐">
-        <activity android:name=".Test" android:theme="@style/Theme.AppCompat.NoActionBar"/>
+        android:label="气泡娱乐"
+        android:requestLegacyExternalStorage="true">
+        <activity
+            android:name=".Test"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
             android:name=".MainActivity"
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
@@ -54,6 +57,7 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
+
     </application>
 
 </manifest>

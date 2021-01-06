@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_netease/controller/home/video_page_controller.dart';
+import 'package:flutter_netease/controller/home/video/video_page_controller.dart';
 import 'package:get/get.dart';
 
 ///首页 视频模块

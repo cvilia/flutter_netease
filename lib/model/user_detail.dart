@@ -3,7 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'user_detail.g.dart';
 
-///我的模块，顶部获取的用户信息，接口为[Api.DISCOVER_USER_DETAIL]
+///我的模块，顶部获取的用户信息，接口为[Api.MY_USER_DETAIL]
 @JsonSerializable()
 class UserDetail extends Object {
   int level;
