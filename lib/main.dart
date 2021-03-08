@@ -2,10 +2,12 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_netease/config/colours.dart';
 import 'package:flutter_netease/route/app_pages.dart';
 import 'package:get/get.dart';
 
 void main() {
+  HttpOverrides.global = DetourHttps();
   runApp(
     GetMaterialApp(
       debugShowCheckedModeBanner: false,
@@ -18,9 +20,22 @@ void main() {
     SystemChrome.setPreferredOrientations(
         [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
     SystemUiOverlayStyle dark = SystemUiOverlayStyle(
-      systemNavigationBarColor: Colors.transparent,
+      systemNavigationBarColor: Colours.app_main_background,
       systemNavigationBarDividerColor: null,
+      statusBarColor: Colors.transparent,
+      statusBarBrightness: Brightness.dark,
+      statusBarIconBrightness: Brightness.dark
     );
     SystemChrome.setSystemUIOverlayStyle(dark);
+  }
+}
+
+///绕过https验证
+class DetourHttps extends HttpOverrides {
+  @override
+  HttpClient createHttpClient(SecurityContext context) {
+    // TODO: implement createHttpClient
+    return super.createHttpClient(context)
+      ..badCertificateCallback = (_, __, ___) => true;
   }
 }

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_netease/controller/home/my/my_favor_music_controller.dart';
 import 'package:flutter_netease/controller/home/my/my_page_controller.dart';
 import 'package:flutter_netease/page/home/my/header_view.dart';
 import 'package:flutter_netease/util/scroll_behavior.dart';
@@ -20,12 +19,4 @@ class MyPage extends GetView<MyPageController> {
     );
   }
 }
-
-// class MyFavorMusic extends GetView<MyFavorMusicController> {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Container(decoration: BoxDecoration(
-//         color: Colors.white, borderRadius: BorderRadius.circular(15)), child:,);
-//   }
-// }
 

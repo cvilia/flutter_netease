@@ -10,7 +10,6 @@ import 'package:flutter_netease/util/text_utils.dart';
 import 'package:flutter_netease/widget/loading_dialog.dart';
 import 'package:flutter_netease/widget/message_button_dialog.dart';
 import 'package:get/get.dart';
-import 'package:permission_handler/permission_handler.dart';
 
 class LoginController extends GetxController
     with StateMixin, SingleGetTickerProviderMixin {
@@ -18,10 +17,6 @@ class LoginController extends GetxController
 
   TextEditingController accountController;
   TextEditingController passwordController;
-  TextEditingController emailController;
-  FocusNode phoneNode = FocusNode();
-  FocusNode emailNode = FocusNode();
-  FocusNode passwordNode = FocusNode();
 
   TabController tabController;
 
@@ -35,8 +30,7 @@ class LoginController extends GetxController
   }
 
   void click2Login(BuildContext context) async {
-    String account =
-        isPhone.value ? accountController.text : emailController.text;
+    String account = accountController.text;
     String password = passwordController.text;
     if (TextUtils.isEmpty(account)) {
       Get.dialog(MessageButtonDialog(
@@ -50,28 +44,22 @@ class LoginController extends GetxController
       return;
     }
     String encryptPassword = TextUtils.toMd5(password);
+    print('lizhenyu-pwd= $encryptPassword');
 
     Get.dialog(LoadingDialog());
-    if (isPhone.value) {
-      //手机登录
-      await dioHelper.get(Api.LOGIN_BY_PHONE,
-          params: {'phone': account, 'md5_password': encryptPassword},
-          callBack: (response) =>
-              route2App(response, encryptPassword, account));
-    } else {
-      //邮箱登录
-      await dioHelper.get(Api.LOGIN_BY_MAIL,
-          params: {'email': account, 'md5_password': encryptPassword},
-          callBack: (response) =>
-              route2App(response, encryptPassword, account));
-    }
+    await dioHelper.get(isPhone.value ? Api.LOGIN_BY_PHONE : Api.LOGIN_BY_MAIL,
+        params: {
+          isPhone.value ? 'phone' : 'email': account,
+          'md5_password': encryptPassword
+        },
+        callBack: (response) => route2App(response, encryptPassword, account));
   }
 
   void route2App(response, encryptPassword, account) async {
     Get.back();
     if (response == null) {
-      Get.dialog(
-          MessageButtonDialog(message: '登录失败，请检查网络', onTap: () => Get.back()));
+      Get.dialog(MessageButtonDialog(
+          message: '气泡音乐发生了一个未知的错误，请稍后重试', onTap: () => Get.back()));
     } else {
       var json = jsonDecode(response.data.toString());
       if (json['code'] == 200) {
@@ -90,23 +78,22 @@ class LoginController extends GetxController
     super.onInit();
     accountController = TextEditingController();
     passwordController = TextEditingController();
-    emailController = TextEditingController();
     tabController = TabController(length: 2, vsync: this);
-    phoneNode.addListener(() async {
-      if (phoneNode.hasPrimaryFocus) {
-        await Permission.phone.request();
-      }
-    });
-    emailNode.addListener(() async {
-      if (emailNode.hasPrimaryFocus) {
-        await Permission.phone.request();
-      }
-    });
-    passwordNode.addListener(() async {
-      if (passwordNode.hasFocus) {
-        await Permission.phone.request();
-      }
-    });
+    // phoneNode.addListener(() async {
+    //   if (phoneNode.hasPrimaryFocus) {
+    //     await Permission.phone.request();
+    //   }
+    // });
+    // emailNode.addListener(() async {
+    //   if (emailNode.hasPrimaryFocus) {
+    //     await Permission.phone.request();
+    //   }
+    // });
+    // passwordNode.addListener(() async {
+    //   if (passwordNode.hasFocus) {
+    //     await Permission.phone.request();
+    //   }
+    // });
   }
 
   @override
@@ -115,14 +102,13 @@ class LoginController extends GetxController
     super.onClose();
     accountController.dispose();
     passwordController.dispose();
-    emailController.dispose();
     tabController.dispose();
-    // animationController.dispose();
   }
 
   void saveUserInfo(json, encryptPassword, account) async {
     await SpUtil.putBoolean(Constant.SP_USER_LOGIN, true);
-    await SpUtil.putString(Constant.SP_USER_ID, json['account']['id'].toString());
+    await SpUtil.putString(
+        Constant.SP_USER_ID, json['account']['id'].toString());
     await SpUtil.putString(
         Constant.SP_USER_NICK_NAME, json['profile']['nickname']);
     await SpUtil.putString(Constant.SP_USER_MD5_PASSWORD, encryptPassword);

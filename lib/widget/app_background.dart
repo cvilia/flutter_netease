@@ -14,16 +14,6 @@ class AppBackground extends StatelessWidget {
       width: MediaQueryData.fromWindow(window).size.width,
       height: MediaQueryData.fromWindow(window).size.height,
       color: Colours.app_main_background,
-      // decoration: BoxDecoration(
-      //   gradient: LinearGradient(
-      //     begin: Alignment.topLeft,
-      //     end: Alignment.bottomRight,
-      //     colors: [
-      //       Colors.deepOrangeAccent,
-      //       Colors.orange,
-      //     ],
-      //   ),
-      // ),
       child: child,
     );
   }

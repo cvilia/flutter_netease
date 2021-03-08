@@ -5,7 +5,6 @@ import 'package:flutter_netease/page/home/discover/discover_page.dart';
 import 'package:flutter_netease/page/home/first/first_page.dart';
 import 'package:flutter_netease/page/home/my/my_page.dart';
 import 'package:flutter_netease/page/home/video/video_page.dart';
-import 'package:flutter_netease/route/app_pages.dart';
 import 'package:flutter_netease/widget/app_background.dart';
 import 'package:get/get.dart';
 
@@ -18,88 +17,133 @@ class HomePage extends StatelessWidget {
     return AppBackground(
       child: Obx(
         () => Scaffold(
-          backgroundColor: Colors.transparent,
-          bottomNavigationBar: BottomAppBar(
-            color: Colours.app_main_background,
-            shape: CircularNotchedRectangle(),
-            child: Row(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                BottomBarItem(
-                  icon: Icons.music_note,
-                  label: '首页',
-                  color: controller.currentIndex.value == 0
-                      ? Colours.app_main
-                      : Colours.text_hint,
-                  onTap: () => controller.currentIndex.value = 0,
+          drawer: MainDrawer(),
+          appBar: PreferredSize(
+            preferredSize: Size.fromHeight(50),
+            child: AppBar(
+              elevation: 0.5,
+              centerTitle: true,
+              backgroundColor: Colours.app_main_background,
+              leading: Builder(
+                builder: (ctx) => IconButton(
+                  icon: Icon(Icons.menu_rounded, color: Colours.grey, size: 22),
+                  onPressed: () => Scaffold.of(ctx).openDrawer(),
                 ),
-                Padding(
-                  padding: EdgeInsets.only(right: 45),
-                  child: BottomBarItem(
-                      icon: Icons.find_in_page,
-                      label: '发现',
-                      color: controller.currentIndex.value == 1
-                          ? Colours.app_main
-                          : Colours.text_hint,
-                      onTap: () => controller.currentIndex.value = 1),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(left: 45),
-                  child: BottomBarItem(
-                      icon: Icons.video_call,
-                      label: '视频',
-                      color: controller.currentIndex.value == 2
-                          ? Colours.app_main
-                          : Colours.text_hint,
-                      onTap: () => controller.currentIndex.value = 2),
-                ),
-                BottomBarItem(
-                    icon: Icons.person,
-                    label: '我的',
-                    color: controller.currentIndex.value == 3
-                        ? Colours.app_main
-                        : Colours.text_hint,
-                    onTap: () => controller.currentIndex.value = 3),
+              ),
+              actions: [
+                IconButton(
+                  icon: Icon(Icons.keyboard_voice_rounded,
+                      color: Colours.grey, size: 22),
+                  onPressed: null,
+                )
               ],
+              title: Visibility(
+                visible: true,
+                child: SizedBox(
+                  height: 35,
+                  width: double.infinity,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                    child: TextField(
+                      maxLines: 1,
+                      scrollPhysics: NeverScrollableScrollPhysics(),
+                      decoration: InputDecoration(
+                        prefixIcon: Icon(
+                          Icons.search,
+                          color: Colours.grey,
+                        ),
+                        border: InputBorder.none,
+                        contentPadding: EdgeInsets.symmetric(vertical: 15),
+                      ),
+                      cursorColor: Colours.app_main,
+                    ),
+                  ),
+                ),
+              ),
             ),
           ),
-          floatingActionButton: FloatingActionButton(
-            backgroundColor: Colours.app_main_background,
-            onPressed: () => Get.toNamed(Routes.PLAY_PAGE),
-            child: Icon(Icons.play_arrow, size: 28, color: Colors.white),
+          backgroundColor: Colors.transparent,
+          bottomNavigationBar: BottomNavigationBar(
+            currentIndex: controller.currentIndex.value,
+            items: getItems(),
+            iconSize: 20,
+            selectedItemColor: Colours.app_main,
+            unselectedItemColor: Colours.text_hint,
+            selectedFontSize: 12,
+            unselectedFontSize: 12,
+            onTap: (index) => controller.currentIndex.value = index,
           ),
-          floatingActionButtonLocation:
-              FloatingActionButtonLocation.centerDocked,
           body: pages[controller.currentIndex.value],
         ),
       ),
     );
   }
+
+  List<BottomNavigationBarItem> getItems() {
+    return [
+      BottomNavigationBarItem(
+          backgroundColor: Colours.app_main_background,
+          icon: Icon(Icons.home_rounded),
+          label: '首页'),
+      BottomNavigationBarItem(
+          backgroundColor: Colours.app_main_background,
+          icon: Icon(Icons.all_out_rounded),
+          label: '发现'),
+      BottomNavigationBarItem(
+          backgroundColor: Colours.app_main_background,
+          icon: Icon(Icons.cloud_circle_rounded),
+          label: '云村'),
+      BottomNavigationBarItem(
+          backgroundColor: Colours.app_main_background,
+          icon: Icon(Icons.person_outline_rounded),
+          label: '我的'),
+    ];
+  }
 }
 
-class BottomBarItem extends StatelessWidget {
-  final IconData icon;
-  final String label;
-  final Color color;
-  final Function onTap;
-
-  BottomBarItem({this.icon, this.label, this.color, this.onTap});
-
+class MainDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        color: Colours.app_main_background,
-        padding: EdgeInsets.symmetric(vertical: 8),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(icon, color: color),
-            Text(label, style: TextStyle(color: color))
-          ],
+    return Drawer(
+      child: MediaQuery.removePadding(
+        context: context,
+        removeTop: true,
+        child: Container(
+          color: Colours.app_main_background,
+          child: Column(
+            children: <Widget>[
+              Container(
+                padding: EdgeInsets.all(20.0),
+                height: 180,
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    fit: BoxFit.fill,
+                    image: NetworkImage(
+                        'https://p3.music.126.net/OL02rfkLbzAvQ-W4OHJvOA==/109951165418386456.jpg'),
+                  ),
+                ),
+                child: Row(
+                  children: <Widget>[
+                    ClipOval(
+                      child: Image.network(
+                          'https://p4.music.126.net/Uod614kFPptcj661BPLsOg==/109951165380951600.jpg',
+                          width: 60.0),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(left: 50.0),
+                      child: Text(
+                        '麻辣炖土豆儿',
+                        style: TextStyle(fontSize: 20.0, color: Colors.white),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
