@@ -27,11 +27,11 @@ class LoginPage extends StatelessWidget {
                 child: TabBar(
                     controller: controller.tabController,
                     indicator: const BoxDecoration(),
-                    labelColor: Colours.app_main,
+                    labelColor: Colours.app_main_text,
                     labelStyle:
                         TextStyle(fontSize: 17, fontWeight: FontWeight.w800),
                     labelPadding: EdgeInsets.zero,
-                    unselectedLabelColor: Colours.text_hint,
+                    unselectedLabelColor: Colours.app_main_unselected,
                     unselectedLabelStyle:
                         TextStyle(fontSize: 15, fontWeight: FontWeight.normal),
                     tabs: [Tab(text: '手机'), Tab(text: '邮箱')],
@@ -50,9 +50,9 @@ class LoginPage extends StatelessWidget {
                           keyboardType: controller.isPhone.value
                               ? TextInputType.phone
                               : TextInputType.emailAddress,
-                          cursorColor: Colours.app_main,
+                          cursorColor: Colours.app_main_courser,
                           style: TextStyle(
-                              color: Colours.app_main,
+                              color: Colours.app_main_text,
                               fontSize: 18,
                               letterSpacing: 1.5),
                           decoration: InputDecoration(
@@ -61,7 +61,7 @@ class LoginPage extends StatelessWidget {
                                   : '请输入网易邮箱',
                               hintStyle: TextStyle(
                                 fontSize: 15,
-                                color: Colours.text_hint,
+                                color: Colours.app_main_text_hint,
                               ),
                               border: InputBorder.none,
                               isCollapsed: true),
@@ -76,16 +76,16 @@ class LoginPage extends StatelessWidget {
                         controller: controller.passwordController,
                         keyboardType: TextInputType.text,
                         obscureText: true,
-                        cursorColor: Colours.app_main,
+                        cursorColor: Colours.app_main_courser,
                         style: TextStyle(
-                            color: Colours.app_main,
+                            color: Colours.app_main_text,
                             fontSize: 18,
                             letterSpacing: 1.5),
                         decoration: InputDecoration(
                             hintText: '请输入登录密码',
                             hintStyle: TextStyle(
                               fontSize: 15,
-                              color: Colours.text_hint,
+                              color: Colours.app_main_text_hint,
                             ),
                             border: InputBorder.none,
                             isCollapsed: true),
@@ -100,14 +100,14 @@ class LoginPage extends StatelessWidget {
                         height: 45,
                         alignment: Alignment.center,
                         decoration: BoxDecoration(
-                            border: Border.all(color: Colours.border),
+                            border: Border.all(color: Colours.app_main_border),
                             borderRadius: BorderRadius.circular(30)),
                         padding:
                             EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                         child: Text(
                           '登录',
                           style: TextStyle(
-                              color: Colours.app_main,
+                              color: Colours.app_main_text,
                               fontSize: 16,
                               fontWeight: FontWeight.w600),
                         ),
@@ -138,7 +138,7 @@ class TextFieldBorder extends StatelessWidget {
       padding: EdgeInsets.only(left: 5, bottom: 5),
       decoration: BoxDecoration(
         border: Border(
-          bottom: BorderSide(color: Colours.border, width: 1),
+          bottom: BorderSide(color: Colours.app_main_border, width: 1),
         ),
       ),
       child: child,

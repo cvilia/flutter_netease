@@ -19,4 +19,3 @@ class MyPage extends GetView<MyPageController> {
     );
   }
 }
-

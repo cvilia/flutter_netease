@@ -6,6 +6,7 @@ import 'package:flutter_netease/page/home/first/first_page.dart';
 import 'package:flutter_netease/page/home/my/my_page.dart';
 import 'package:flutter_netease/page/home/video/video_page.dart';
 import 'package:flutter_netease/widget/app_background.dart';
+import 'package:flutter_netease/widget/root_actionbar.dart';
 import 'package:get/get.dart';
 
 List<Widget> pages = [FirstPage(), DiscoverPage(), VideoPage(), MyPage()];
@@ -18,22 +19,22 @@ class HomePage extends StatelessWidget {
       child: Obx(
         () => Scaffold(
           drawer: MainDrawer(),
-          appBar: PreferredSize(
-            preferredSize: Size.fromHeight(50),
-            child: AppBar(
+          appBar: appBar(
+            appBar: AppBar(
               elevation: 0.5,
               centerTitle: true,
               backgroundColor: Colours.app_main_background,
               leading: Builder(
                 builder: (ctx) => IconButton(
-                  icon: Icon(Icons.menu_rounded, color: Colours.grey, size: 22),
+                  icon: Icon(Icons.menu_rounded,
+                      color: Colours.app_main_action_bar_icon, size: 22),
                   onPressed: () => Scaffold.of(ctx).openDrawer(),
                 ),
               ),
               actions: [
                 IconButton(
                   icon: Icon(Icons.keyboard_voice_rounded,
-                      color: Colours.grey, size: 22),
+                      color: Colours.app_main_action_bar_icon, size: 22),
                   onPressed: null,
                 )
               ],
@@ -53,12 +54,12 @@ class HomePage extends StatelessWidget {
                       decoration: InputDecoration(
                         prefixIcon: Icon(
                           Icons.search,
-                          color: Colours.grey,
+                          color: Colours.app_main_icon_in_textfield,
                         ),
                         border: InputBorder.none,
                         contentPadding: EdgeInsets.symmetric(vertical: 15),
                       ),
-                      cursorColor: Colours.app_main,
+                      cursorColor: Colours.app_main_courser,
                     ),
                   ),
                 ),
@@ -71,7 +72,7 @@ class HomePage extends StatelessWidget {
             items: getItems(),
             iconSize: 20,
             selectedItemColor: Colours.app_main,
-            unselectedItemColor: Colours.text_hint,
+            unselectedItemColor: Colours.app_main_unselected,
             selectedFontSize: 12,
             unselectedFontSize: 12,
             onTap: (index) => controller.currentIndex.value = index,
