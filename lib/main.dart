@@ -19,6 +19,8 @@ void main() {
   if (Platform.isAndroid) {
     SystemChrome.setPreferredOrientations(
         [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+    ///隐藏手机底部的导航条
+    SystemChrome.setEnabledSystemUIOverlays([SystemUiOverlay.top]);
     SystemUiOverlayStyle dark = SystemUiOverlayStyle(
       systemNavigationBarColor: Colours.app_main_background,
       systemNavigationBarDividerColor: null,

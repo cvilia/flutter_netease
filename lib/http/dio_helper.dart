@@ -28,7 +28,8 @@ class DioHelper {
   Future<void> get(String url, {Map params, DioCallBack callBack}) async {
     try {
       callBack(await _dio.get(url,
-          queryParameters: Map<String, dynamic>.from(params)));
+          queryParameters:
+              params == null ? null : Map<String, dynamic>.from(params)));
     } on DioError catch (e) {
       print(
           '\nget请求错误url:$url,\nmessage:${e.message}\nbody:${e.response.toString()}');

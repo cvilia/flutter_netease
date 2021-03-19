@@ -8,4 +8,7 @@ class Api {
 
   ///music
   static const String GET_MUSIC_URL = '/song/url'; //获取音乐url 必选参数 id，可选参数br，码率
+
+  static const String GET_DISCOVERY_DATA =
+      '/homepage/block/page'; //获取发现页完整数据 可选参数refresh，是否刷新数据，默认为true
 }
