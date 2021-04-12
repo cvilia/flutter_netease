@@ -21,7 +21,7 @@ class HomePage extends StatelessWidget {
           drawer: MainDrawer(),
           appBar: appBar(
             appBar: AppBar(
-              elevation: 0.5,
+              elevation: 0,
               centerTitle: true,
               backgroundColor: Colours.app_main_background,
               leading: Builder(

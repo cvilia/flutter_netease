@@ -1,3 +1,7 @@
+import 'package:flutter/services.dart';
+
+const MethodChannel logChannel = MethodChannel('com.cvilia.bubble-log');
+
 class Constant {
   ///User相关
   static const String SP_USER_LOGIN = 'user_login';

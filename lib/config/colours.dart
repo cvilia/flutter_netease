@@ -5,7 +5,7 @@ abstract class Colours {
   static const Color app_main_red = Color(0xfff14752);
 
   ///background、border
-  static const Color app_main_background = Color(0xfff0c9cf);
+  static const Color app_main_background = Color(0xffefefef);
   static const Color app_main_border = Color(0xff495c69);
   static const Color app_main_courser = Color(0xff495c69);
 

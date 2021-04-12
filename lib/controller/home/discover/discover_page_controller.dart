@@ -13,7 +13,7 @@ class DiscoverPageController extends GetxController {
 
   get obj => _obj.value;
 
-  var discoveryModel = Rx<DiscoveryModel>();
+  var discoveryModel = Rxn<DiscoveryModel>();
 
   @override
   void onInit() {

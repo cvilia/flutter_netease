@@ -9,7 +9,9 @@ import 'package:get/get.dart';
 
 ///我的页面顶部的头像背景图等信息controller
 class HeaderViewController extends GetxController {
-  var userDetail = Rx<UserDetail>();
+  var userDetail = Rxn<UserDetail>();
+
+  static HeaderViewController get to => Get.find();
 
   @override
   void onInit() async {
