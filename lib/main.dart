@@ -35,7 +35,7 @@ void main() {
 ///绕过https验证
 class DetourHttps extends HttpOverrides {
   @override
-  HttpClient createHttpClient(SecurityContext context) {
+  HttpClient createHttpClient(SecurityContext? context) {
     // TODO: implement createHttpClient
     return super.createHttpClient(context)
       ..badCertificateCallback = (_, __, ___) => true;

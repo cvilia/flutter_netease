@@ -9,7 +9,7 @@ import 'package:get/get.dart';
 class HomePageController extends GetxController {
   var currentIndex = 0.obs;
 
-  PageController pageController;
+  PageController? pageController;
 
   void onPressBottomBar(int index) {
     if (index == 0) {}
@@ -25,7 +25,7 @@ class HomePageController extends GetxController {
   @override
   void onClose() {
     super.onClose();
-    pageController.dispose();
+    pageController?.dispose();
   }
 
   ///请求开屏页图片

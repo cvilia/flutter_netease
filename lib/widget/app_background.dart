@@ -6,7 +6,7 @@ import 'package:flutter_netease/config/colours.dart';
 class AppBackground extends StatelessWidget {
   final Widget child;
 
-  AppBackground({@required this.child});
+  AppBackground({required this.child});
 
   @override
   Widget build(BuildContext context) {

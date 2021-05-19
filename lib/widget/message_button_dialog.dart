@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 class MessageButtonDialog extends StatelessWidget {
   final String message;
   final String buttonText;
-  final Function onTap;
+  final Function? onTap;
 
   MessageButtonDialog(
-      {@required this.message, this.buttonText = '确定', this.onTap});
+      {required this.message, this.buttonText = '确定', this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +37,7 @@ class MessageButtonDialog extends StatelessWidget {
               ),
               Expanded(
                 child: GestureDetector(
-                  onTap: onTap,
+                  onTap: () => onTap,
                   child: Container(
                     decoration: BoxDecoration(
                         color: Colors.white,

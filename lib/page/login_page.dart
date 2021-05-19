@@ -128,7 +128,7 @@ class LoginPage extends StatelessWidget {
 class TextFieldBorder extends StatelessWidget {
   final Widget child;
 
-  TextFieldBorder({@required this.child});
+  TextFieldBorder({required this.child});
 
   @override
   Widget build(BuildContext context) {

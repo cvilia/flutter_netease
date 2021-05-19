@@ -27,7 +27,7 @@ class LauncherPage extends GetView<LauncherController> {
                         ])),
                   )
                 : Image.network(
-                    controller.imgUrl.value,
+                    controller.imgUrl.value!,
                     fit: BoxFit.cover,
                     height: double.infinity,
                     width: double.infinity,

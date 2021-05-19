@@ -1,7 +1,7 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SpUtil {
-  static Future<String> getString(String key) async {
+  static Future<String?> getString(String key) async {
     SharedPreferences sp = await SharedPreferences.getInstance();
     return sp.getString(key);
   }
@@ -11,12 +11,12 @@ class SpUtil {
     return sp.getBool(key) ?? defaultValue;
   }
 
-  static Future<int> getInt(String key) async {
+  static Future<int?> getInt(String key) async {
     SharedPreferences sp = await SharedPreferences.getInstance();
     return sp.getInt(key);
   }
 
-  static Future<double> getDouble(String key) async {
+  static Future<double?> getDouble(String key) async {
     SharedPreferences sp = await SharedPreferences.getInstance();
     return sp.getDouble(key);
   }

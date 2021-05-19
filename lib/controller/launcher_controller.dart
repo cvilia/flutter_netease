@@ -9,7 +9,7 @@ import 'package:get/get.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class LauncherController extends GetxController {
-  Timer _timer;
+  Timer? _timer;
   var count = 0.obs;
   var imgUrl = RxnString();
 
@@ -57,8 +57,8 @@ class LauncherController extends GetxController {
   @override
   void onClose() {
     super.onClose();
-    if (_timer.isActive) {
-      _timer.cancel();
+    if (_timer!.isActive) {
+      _timer?.cancel();
     }
   }
 }

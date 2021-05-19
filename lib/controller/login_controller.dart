@@ -15,13 +15,13 @@ class LoginController extends GetxController
     with StateMixin, SingleGetTickerProviderMixin {
   var loginTapDown = Colors.transparent.obs;
 
-  TextEditingController accountController;
-  TextEditingController passwordController;
+  TextEditingController? accountController;
+  TextEditingController? passwordController;
 
-  TabController tabController;
+  TabController? tabController;
 
-  AnimationController animationController;
-  Animation curve;
+  AnimationController? animationController;
+  Animation? curve;
 
   var isPhone = true.obs;
 
@@ -30,8 +30,8 @@ class LoginController extends GetxController
   }
 
   void click2Login(BuildContext context) async {
-    String account = accountController.text;
-    String password = passwordController.text;
+    String account = accountController!.text;
+    String password = passwordController!.text;
     if (TextUtils.isEmpty(account)) {
       Get.dialog(MessageButtonDialog(
           message: isPhone.value ? '请输入手机号' : '请输入网易邮箱账号',
@@ -100,9 +100,9 @@ class LoginController extends GetxController
   void onClose() {
     // TODO: implement onClose
     super.onClose();
-    accountController.dispose();
-    passwordController.dispose();
-    tabController.dispose();
+    accountController!.dispose();
+    passwordController!.dispose();
+    tabController!.dispose();
   }
 
   void saveUserInfo(json, encryptPassword, account) async {

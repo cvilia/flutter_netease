@@ -15,13 +15,13 @@ enum ImageType {
 class ImageWrapper extends StatelessWidget {
   final String url;
   final double width;
-  final double height;
+  final double? height;
   final BoxFit fit;
   final ImageType imageType;
 
   ImageWrapper(
-      {@required this.url,
-        @required this.width,
+      {required this.url,
+        required this.width,
         this.height,
         this.fit = BoxFit.cover,
         this.imageType = ImageType.assets});
