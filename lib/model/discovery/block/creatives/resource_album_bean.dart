@@ -1,4 +1,3 @@
-
 import 'resource_artist_bean.dart';
 
 /// artist : {"albumSize":0,"briefDesc":"","id":0,"img1v1Id":0,"img1v1Url":"http://p3.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg","musicSize":0,"name":"","picId":0,"picUrl":"http://p3.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg","topicPerson":0,"trans":""}
@@ -30,49 +29,43 @@ class ResourceAlbumBean {
   List<ResourceArtistBean>? artists;
   String? blurPicUrl;
   String? briefDesc;
-  String? commentThreadId;
   String? company;
-  int? companyId;
-  int? copyrightId;
+  String? companyId;
+  String? copyrightId;
   String? description;
-  int? id;
+  String? id;
   int? mark;
   String? name;
   bool? onSale;
-  int? pic;
-  int? picId;
   String? picIdStr;
   String? picUrl;
-  int? publishTime;
+  String? publishTime;
   int? size;
   int? status;
   String? subType;
   String? tags;
   String? type;
 
-  ResourceAlbumBean({
-      this.artist, 
-      this.artists, 
-      this.blurPicUrl, 
-      this.briefDesc, 
-      this.commentThreadId, 
-      this.company, 
-      this.companyId, 
-      this.copyrightId, 
-      this.description, 
-      this.id, 
-      this.mark, 
-      this.name, 
-      this.onSale, 
-      this.pic, 
-      this.picId, 
-      this.picIdStr, 
-      this.picUrl, 
-      this.publishTime, 
-      this.size, 
-      this.status, 
-      this.subType, 
-      this.tags, 
+  ResourceAlbumBean(
+      {this.artist,
+      this.artists,
+      this.blurPicUrl,
+      this.briefDesc,
+      this.company,
+      this.companyId,
+      this.copyrightId,
+      this.description,
+      this.id,
+      this.mark,
+      this.name,
+      this.onSale,
+      this.picIdStr,
+      this.picUrl,
+      this.publishTime,
+      this.size,
+      this.status,
+      this.subType,
+      this.tags,
       this.type});
 
   ResourceAlbumBean.fromJson(dynamic json) {
@@ -85,20 +78,17 @@ class ResourceAlbumBean {
     }
     blurPicUrl = json["blurPicUrl"];
     briefDesc = json["briefDesc"];
-    commentThreadId = json["commentThreadId"];
     company = json["company"];
-    companyId = json["companyId"];
-    copyrightId = json["copyrightId"];
+    companyId = json["companyId"] is String ? json["companyId"] : json["companyId"].toString();
+    copyrightId = json["copyrightId"] is String ? json["copyrightId"] : json["copyrightId"].toString();
     description = json["description"];
-    id = json["id"];
+    id = json["id"] is String ? json["id"] : json["id"].toString();
     mark = json["mark"];
     name = json["name"];
     onSale = json["onSale"];
-    pic = json["pic"];
-    picId = json["picId"];
     picIdStr = json["picId_str"];
     picUrl = json["picUrl"];
-    publishTime = json["publishTime"];
+    publishTime = json["publishTime"] is String ? json["publishTime"] : json["publishTime"].toString();
     size = json["size"];
     status = json["status"];
     subType = json["subType"];
@@ -116,7 +106,6 @@ class ResourceAlbumBean {
     }
     map["blurPicUrl"] = blurPicUrl;
     map["briefDesc"] = briefDesc;
-    map["commentThreadId"] = commentThreadId;
     map["company"] = company;
     map["companyId"] = companyId;
     map["copyrightId"] = copyrightId;
@@ -125,8 +114,6 @@ class ResourceAlbumBean {
     map["mark"] = mark;
     map["name"] = name;
     map["onSale"] = onSale;
-    map["pic"] = pic;
-    map["picId"] = picId;
     map["picId_str"] = picIdStr;
     map["picUrl"] = picUrl;
     map["publishTime"] = publishTime;

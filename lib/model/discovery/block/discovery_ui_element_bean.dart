@@ -51,25 +51,17 @@ class DiscoveryUiElementBean {
 /// text : "更多"
 
 class Button {
-  String? action;
-  String? actionType;
   String? text;
 
   Button({
-      this.action, 
-      this.actionType, 
       this.text});
 
   Button.fromJson(dynamic json) {
-    action = json["action"];
-    actionType = json["actionType"];
     text = json["text"];
   }
 
   Map<String, dynamic> toJson() {
     var map = <String, dynamic>{};
-    map["action"] = action;
-    map["actionType"] = actionType;
     map["text"] = text;
     return map;
   }

@@ -38,69 +38,27 @@ class ResourceSongDataBean {
   ResourceAlbumBean? album;
   List<ResourceArtistBean>? artists;
   BMusic? bMusic;
-  String? commentThreadId;
-  String? copyFrom;
-  int? copyright;
-  int? copyrightId;
-  int? dayPlays;
-  String? disc;
-  int? duration;
-  int? fee;
-  int? ftype;
+  String? duration;
   HMusic? hMusic;
-  int? hearTime;
-  int? id;
+  String? id;
   LMusic? lMusic;
   MMusic? mMusic;
-  int? mark;
-  int? mvid;
+  String? mvid;
   String? name;
-  int? no;
-  int? originCoverType;
-  int? playedNum;
   int? popularity;
-  int? position;
-  String? ringtone;
-  int? rtype;
-  int? score;
-  int? single;
-  bool? starred;
-  int? starredNum;
-  int? status;
 
-  ResourceSongDataBean({
-      this.album, 
-      this.artists, 
-      this.bMusic, 
-      this.commentThreadId, 
-      this.copyFrom, 
-      this.copyright, 
-      this.copyrightId, 
-      this.dayPlays, 
-      this.disc, 
-      this.duration, 
-      this.fee, 
-      this.ftype, 
-      this.hMusic, 
-      this.hearTime, 
-      this.id, 
-      this.lMusic, 
-      this.mMusic, 
-      this.mark, 
-      this.mvid, 
-      this.name, 
-      this.no, 
-      this.originCoverType, 
-      this.playedNum, 
-      this.popularity, 
-      this.position, 
-      this.ringtone, 
-      this.rtype, 
-      this.score, 
-      this.single, 
-      this.starred, 
-      this.starredNum, 
-      this.status});
+  ResourceSongDataBean(
+      {this.album,
+      this.artists,
+      this.bMusic,
+      this.duration,
+      this.hMusic,
+      this.id,
+      this.lMusic,
+      this.mMusic,
+      this.mvid,
+      this.name,
+      this.popularity});
 
   ResourceSongDataBean.fromJson(dynamic json) {
     album = json["album"] != null ? ResourceAlbumBean.fromJson(json["album"]) : null;
@@ -111,35 +69,14 @@ class ResourceSongDataBean {
       });
     }
     bMusic = json["bMusic"] != null ? BMusic.fromJson(json["bMusic"]) : null;
-    commentThreadId = json["commentThreadId"];
-    copyFrom = json["copyFrom"];
-    copyright = json["copyright"];
-    copyrightId = json["copyrightId"];
-    dayPlays = json["dayPlays"];
-    disc = json["disc"];
-    duration = json["duration"];
-    fee = json["fee"];
-    ftype = json["ftype"];
+    duration = json["duration"] is String ? json["duration"] : json["duration"].toString();
     hMusic = json["hMusic"] != null ? HMusic.fromJson(json["hMusic"]) : null;
-    hearTime = json["hearTime"];
-    id = json["id"];
+    id = json["id"] is String ? json["id"] : json["id"].toString();
     lMusic = json["lMusic"] != null ? LMusic.fromJson(json["lMusic"]) : null;
     mMusic = json["mMusic"] != null ? MMusic.fromJson(json["mMusic"]) : null;
-    mark = json["mark"];
-    mvid = json["mvid"];
+    mvid = json["mvid"] is String ? json["mvid"] : json["mvid"].toString();
     name = json["name"];
-    no = json["no"];
-    originCoverType = json["originCoverType"];
-    playedNum = json["playedNum"];
     popularity = json["popularity"];
-    position = json["position"];
-    ringtone = json["ringtone"];
-    rtype = json["rtype"];
-    score = json["score"];
-    single = json["single"];
-    starred = json["starred"];
-    starredNum = json["starredNum"];
-    status = json["status"];
   }
 
   Map<String, dynamic> toJson() {
@@ -153,19 +90,10 @@ class ResourceSongDataBean {
     if (bMusic != null) {
       map["bMusic"] = bMusic?.toJson();
     }
-    map["commentThreadId"] = commentThreadId;
-    map["copyFrom"] = copyFrom;
-    map["copyright"] = copyright;
-    map["copyrightId"] = copyrightId;
-    map["dayPlays"] = dayPlays;
-    map["disc"] = disc;
     map["duration"] = duration;
-    map["fee"] = fee;
-    map["ftype"] = ftype;
     if (hMusic != null) {
       map["hMusic"] = hMusic?.toJson();
     }
-    map["hearTime"] = hearTime;
     map["id"] = id;
     if (lMusic != null) {
       map["lMusic"] = lMusic?.toJson();
@@ -173,24 +101,11 @@ class ResourceSongDataBean {
     if (mMusic != null) {
       map["mMusic"] = mMusic?.toJson();
     }
-    map["mark"] = mark;
     map["mvid"] = mvid;
     map["name"] = name;
-    map["no"] = no;
-    map["originCoverType"] = originCoverType;
-    map["playedNum"] = playedNum;
     map["popularity"] = popularity;
-    map["position"] = position;
-    map["ringtone"] = ringtone;
-    map["rtype"] = rtype;
-    map["score"] = score;
-    map["single"] = single;
-    map["starred"] = starred;
-    map["starredNum"] = starredNum;
-    map["status"] = status;
     return map;
   }
-
 }
 
 /// bitrate : 192000
@@ -203,49 +118,34 @@ class ResourceSongDataBean {
 /// volumeDelta : -55214
 
 class MMusic {
-  int? bitrate;
-  int? dfsId;
+  String? bitrate;
   String? extension;
-  int? id;
-  int? playTime;
-  int? size;
-  int? sr;
-  int? volumeDelta;
+  String? id;
+  String? playTime;
+  String? size;
+  String? sr;
 
-  MMusic({
-      this.bitrate, 
-      this.dfsId, 
-      this.extension, 
-      this.id, 
-      this.playTime, 
-      this.size, 
-      this.sr, 
-      this.volumeDelta});
+  MMusic({this.bitrate, this.extension, this.id, this.playTime, this.size, this.sr});
 
   MMusic.fromJson(dynamic json) {
-    bitrate = json["bitrate"];
-    dfsId = json["dfsId"];
+    bitrate = json["bitrate"] is String ? json["bitrate"] : json["bitrate"].toString();
     extension = json["extension"];
-    id = json["id"];
-    playTime = json["playTime"];
-    size = json["size"];
-    sr = json["sr"];
-    volumeDelta = json["volumeDelta"];
+    id = json["id"] is String ? json["id"] : json["id"].toString();
+    playTime = json["playTime"] is String ? json["playTime"] : json["playTime"].toString();
+    size = json["size"] is String ? json["size"] : json["size"].toString();
+    sr = json["sr"] is String ? json["sr"] : json["sr"].toString();
   }
 
   Map<String, dynamic> toJson() {
     var map = <String, dynamic>{};
     map["bitrate"] = bitrate;
-    map["dfsId"] = dfsId;
     map["extension"] = extension;
     map["id"] = id;
     map["playTime"] = playTime;
     map["size"] = size;
     map["sr"] = sr;
-    map["volumeDelta"] = volumeDelta;
     return map;
   }
-
 }
 
 /// bitrate : 128000
@@ -258,49 +158,34 @@ class MMusic {
 /// volumeDelta : -53531
 
 class LMusic {
-  int? bitrate;
-  int? dfsId;
+  String? bitrate;
   String? extension;
-  int? id;
-  int? playTime;
-  int? size;
-  int? sr;
-  int? volumeDelta;
+  String? id;
+  String? playTime;
+  String? size;
+  String? sr;
 
-  LMusic({
-      this.bitrate, 
-      this.dfsId, 
-      this.extension, 
-      this.id, 
-      this.playTime, 
-      this.size, 
-      this.sr, 
-      this.volumeDelta});
+  LMusic({this.bitrate, this.extension, this.id, this.playTime, this.size, this.sr});
 
   LMusic.fromJson(dynamic json) {
-    bitrate = json["bitrate"];
-    dfsId = json["dfsId"];
+    bitrate = json["bitrate"] is String ? json["bitrate"] : json["bitrate"].toString();
     extension = json["extension"];
-    id = json["id"];
-    playTime = json["playTime"];
-    size = json["size"];
-    sr = json["sr"];
-    volumeDelta = json["volumeDelta"];
+    id = json["id"] is String ? json["id"] : json["id"].toString();
+    playTime = json["playTime"] is String ? json["playTime"] : json["playTime"].toString();
+    size = json["size"] is String ? json["size"] : json["size"].toString();
+    sr = json["sr"] is String ? json["sr"] : json["sr"].toString();
   }
 
   Map<String, dynamic> toJson() {
     var map = <String, dynamic>{};
     map["bitrate"] = bitrate;
-    map["dfsId"] = dfsId;
     map["extension"] = extension;
     map["id"] = id;
     map["playTime"] = playTime;
     map["size"] = size;
     map["sr"] = sr;
-    map["volumeDelta"] = volumeDelta;
     return map;
   }
-
 }
 
 /// bitrate : 320000
@@ -313,49 +198,34 @@ class LMusic {
 /// volumeDelta : -57816
 
 class HMusic {
-  int? bitrate;
-  int? dfsId;
+  String? bitrate;
   String? extension;
-  int? id;
-  int? playTime;
-  int? size;
-  int? sr;
-  int? volumeDelta;
+  String? id;
+  String? playTime;
+  String? size;
+  String? sr;
 
-  HMusic({
-      this.bitrate, 
-      this.dfsId, 
-      this.extension, 
-      this.id, 
-      this.playTime, 
-      this.size, 
-      this.sr, 
-      this.volumeDelta});
+  HMusic({this.bitrate, this.extension, this.id, this.playTime, this.size, this.sr});
 
   HMusic.fromJson(dynamic json) {
     bitrate = json["bitrate"];
-    dfsId = json["dfsId"];
     extension = json["extension"];
     id = json["id"];
     playTime = json["playTime"];
     size = json["size"];
     sr = json["sr"];
-    volumeDelta = json["volumeDelta"];
   }
 
   Map<String, dynamic> toJson() {
     var map = <String, dynamic>{};
     map["bitrate"] = bitrate;
-    map["dfsId"] = dfsId;
     map["extension"] = extension;
     map["id"] = id;
     map["playTime"] = playTime;
     map["size"] = size;
     map["sr"] = sr;
-    map["volumeDelta"] = volumeDelta;
     return map;
   }
-
 }
 
 /// bitrate : 128000
@@ -368,47 +238,32 @@ class HMusic {
 /// volumeDelta : -53531
 
 class BMusic {
-  int? bitrate;
-  int? dfsId;
+  String? bitrate;
   String? extension;
-  int? id;
-  int? playTime;
-  int? size;
-  int? sr;
-  int? volumeDelta;
+  String? id;
+  String? playTime;
+  String? size;
+  String? sr;
 
-  BMusic({
-      this.bitrate, 
-      this.dfsId, 
-      this.extension, 
-      this.id, 
-      this.playTime, 
-      this.size, 
-      this.sr, 
-      this.volumeDelta});
+  BMusic({this.bitrate, this.extension, this.id, this.playTime, this.size, this.sr});
 
   BMusic.fromJson(dynamic json) {
-    bitrate = json["bitrate"];
-    dfsId = json["dfsId"];
+    bitrate = json["bitrate"] is String ? json["bitrate"] : json["bitrate"].toString();
     extension = json["extension"];
-    id = json["id"];
-    playTime = json["playTime"];
-    size = json["size"];
-    sr = json["sr"];
-    volumeDelta = json["volumeDelta"];
+    id = json["id"] is String ? json["id"] : json["id"].toString();
+    playTime = json["playTime"] is String ? json["playTime"] : json["playTime"].toString();
+    size = json["size"] is String ? json["size"] : json["size"].toString();
+    sr = json["sr"] is String ? json["sr"] : json["sr"].toString();
   }
 
   Map<String, dynamic> toJson() {
     var map = <String, dynamic>{};
     map["bitrate"] = bitrate;
-    map["dfsId"] = dfsId;
     map["extension"] = extension;
     map["id"] = id;
     map["playTime"] = playTime;
     map["size"] = size;
     map["sr"] = sr;
-    map["volumeDelta"] = volumeDelta;
     return map;
   }
-
 }

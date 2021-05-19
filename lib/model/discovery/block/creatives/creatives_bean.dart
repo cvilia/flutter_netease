@@ -9,52 +9,23 @@ import 'package:flutter_netease/model/discovery/block/discovery_ui_element_bean.
 /// position : 0
 
 class CreativesBean {
-  String? action;
-  String? actionType;
   String? code;
   CreativeExtInfoVO? creativeExtInfoVO;
   String? creativeId;
-  String? creativeType;
-  int? position;
   ResourceBean? resources;
   DiscoveryUiElementBean? uiElement;
-  String? alg;
-  String? algReason;
   String? source;
   String? traceId;
 
   CreativesBean(
-      {this.action,
-      this.actionType,
-      this.creativeExtInfoVO,
-      this.creativeId,
-      this.creativeType,
-      this.position,
-      this.resources,
-      this.uiElement,
-      this.alg,
-      this.algReason,
-      this.source,
-      this.traceId,
-      this.code});
+      {this.creativeExtInfoVO, this.creativeId, this.resources, this.uiElement, this.source, this.traceId, this.code});
 
   CreativesBean.fromJson(dynamic json) {
-    action = json["action"];
-    actionType = json["actionType"];
-    creativeExtInfoVO = json["creativeExtInfoVO"] != null
-        ? CreativeExtInfoVO.fromJson(json["creativeExtInfoVO"])
-        : null;
+    creativeExtInfoVO =
+        json["creativeExtInfoVO"] != null ? CreativeExtInfoVO.fromJson(json["creativeExtInfoVO"]) : null;
     creativeId = json["creativeId"];
-    creativeType = json["creativeType"];
-    position = json["position"];
-    resources = json["resources"] != null
-        ? ResourceBean.fromJson(json["resources"])
-        : null;
-    uiElement = json["uiElement"] != null
-        ? DiscoveryUiElementBean.fromJson(json["uiElement"])
-        : null;
-    alg = json["alg"];
-    algReason = json["algReason"];
+    resources = json["resources"] != null ? ResourceBean.fromJson(json["resources"]) : null;
+    uiElement = json["uiElement"] != null ? DiscoveryUiElementBean.fromJson(json["uiElement"]) : null;
     source = json["source"];
     traceId = json["traceId"];
     code = json["code"];
@@ -62,22 +33,16 @@ class CreativesBean {
 
   Map<String, dynamic> toJson() {
     var map = <String, dynamic>{};
-    map["action"] = action;
-    map["actionType"] = actionType;
     if (creativeExtInfoVO != null) {
       map["creativeExtInfoVO"] = creativeExtInfoVO?.toJson();
     }
     map["creativeId"] = creativeId;
-    map["creativeType"] = creativeType;
-    map["position"] = position;
     if (resources != null) {
       map["resources"] = resources?.toJson();
     }
     if (uiElement != null) {
       map["uiElement"] = uiElement?.toJson();
     }
-    map["alg"] = alg;
-    map["algReason"] = algReason;
     map["source"] = source;
     map["traceId"] = traceId;
     map["code"] = code;
@@ -90,15 +55,13 @@ class CreativesBean {
 
 class CreativeExtInfoVO {
   String? topListOriginType;
-  List<int>? topListSongIds;
+  List<String>? topListSongIds;
 
   CreativeExtInfoVO({this.topListOriginType, this.topListSongIds});
 
   CreativeExtInfoVO.fromJson(dynamic json) {
     topListOriginType = json["topListOriginType"];
-    topListSongIds = json["topListSongIds"] != null
-        ? json["topListSongIds"].cast<int>()
-        : [];
+    topListSongIds = json["topListSongIds"] != null ? json["topListSongIds"].cast<String>() : [];
   }
 
   Map<String, dynamic> toJson() {

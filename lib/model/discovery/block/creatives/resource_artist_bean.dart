@@ -13,38 +13,38 @@
 class ResourceArtistBean {
   int? albumSize;
   String? briefDesc;
-  int? id;
-  int? img1v1Id;
+  String? id;
+  String? img1v1Id;
   String? img1v1Url;
   int? musicSize;
   String? name;
-  int? picId;
+  String? picId;
   String? picUrl;
   int? topicPerson;
   String? trans;
 
-  ResourceArtistBean({
-      this.albumSize, 
-      this.briefDesc, 
-      this.id, 
-      this.img1v1Id, 
-      this.img1v1Url, 
-      this.musicSize, 
-      this.name, 
-      this.picId, 
-      this.picUrl, 
-      this.topicPerson, 
+  ResourceArtistBean(
+      {this.albumSize,
+      this.briefDesc,
+      this.id,
+      this.img1v1Id,
+      this.img1v1Url,
+      this.musicSize,
+      this.name,
+      this.picId,
+      this.picUrl,
+      this.topicPerson,
       this.trans});
 
   ResourceArtistBean.fromJson(dynamic json) {
     albumSize = json["albumSize"];
     briefDesc = json["briefDesc"];
-    id = json["id"];
-    img1v1Id = json["img1v1Id"];
+    id = json["id"] is String ? json["id"] : json["id"].toString();
+    img1v1Id = json["img1v1Id"] is String ? json["img1v1Id"] : json["img1v1Id"].toString();
     img1v1Url = json["img1v1Url"];
     musicSize = json["musicSize"];
     name = json["name"];
-    picId = json["picId"];
+    picId = json["picId"] is String ? json["picId"] : json["picId"].toString();
     picUrl = json["picUrl"];
     topicPerson = json["topicPerson"];
     trans = json["trans"];
@@ -65,5 +65,4 @@ class ResourceArtistBean {
     map["trans"] = trans;
     return map;
   }
-
 }

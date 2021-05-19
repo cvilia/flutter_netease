@@ -30,42 +30,30 @@ class DiscoveryPageConfigBean {
 /// songLabelMarkPriority : ["trial","vip","exclusive","sq","pre_sale"]
 
 class PageConfig {
-  bool? fullscreen;
-  String? homepageMode;
   String? nodataToast;
   int? refreshInterval;
   String? refreshToast;
   bool? showModeEntry;
-  int? songLabelMarkLimit;
 
   PageConfig({
-      this.fullscreen, 
-      this.homepageMode, 
       this.nodataToast, 
       this.refreshInterval, 
       this.refreshToast, 
-      this.showModeEntry, 
-      this.songLabelMarkLimit});
+      this.showModeEntry});
 
   PageConfig.fromJson(dynamic json) {
-    fullscreen = json["fullscreen"];
-    homepageMode = json["homepageMode"];
     nodataToast = json["nodataToast"];
     refreshInterval = json["refreshInterval"];
     refreshToast = json["refreshToast"];
     showModeEntry = json["showModeEntry"];
-    songLabelMarkLimit = json["songLabelMarkLimit"];
   }
 
   Map<String, dynamic> toJson() {
     var map = <String, dynamic>{};
-    map["fullscreen"] = fullscreen;
-    map["homepageMode"] = homepageMode;
     map["nodataToast"] = nodataToast;
     map["refreshInterval"] = refreshInterval;
     map["refreshToast"] = refreshToast;
     map["showModeEntry"] = showModeEntry;
-    map["songLabelMarkLimit"] = songLabelMarkLimit;
     return map;
   }
 

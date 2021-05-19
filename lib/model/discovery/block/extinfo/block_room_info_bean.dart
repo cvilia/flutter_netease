@@ -16,7 +16,6 @@
 
 class BlockRoomInfoBean {
   int? agoraRoomNo;
-  String? alg;
   int? anchorId;
   String? bgUrl;
   String? extInfo;
@@ -33,7 +32,6 @@ class BlockRoomInfoBean {
 
   BlockRoomInfoBean({
       this.agoraRoomNo,
-      this.alg,
       this.anchorId,
       this.bgUrl,
       this.extInfo,
@@ -50,7 +48,6 @@ class BlockRoomInfoBean {
 
   BlockRoomInfoBean.fromJson(dynamic json) {
     agoraRoomNo = json["agoraRoomNo"];
-    alg = json["alg"];
     anchorId = json["anchorId"];
     bgUrl = json["bgUrl"];
     extInfo = json["extInfo"];
@@ -74,7 +71,6 @@ class BlockRoomInfoBean {
   Map<String, dynamic> toJson() {
     var map = <String, dynamic>{};
     map["agoraRoomNo"] = agoraRoomNo;
-    map["alg"] = alg;
     map["anchorId"] = anchorId;
     map["bgUrl"] = bgUrl;
     map["extInfo"] = extInfo;

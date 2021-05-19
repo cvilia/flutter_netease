@@ -45,33 +45,25 @@ class BlockExtInfoBean {
   int? appKeyType;
   String? bgCoverUrl;
   String? cover;
-  int? coverId;
+  String? coverId;
   int? endTime;
-  int? liveId;
+  String? liveId;
   int? liveStatus;
   int? liveType;
   LiveUrl? liveUrl;
-  int? onlineNumber;
-  int? orientationScope;
   int? popularity;
   String? privateTag;
   RecLiveDTO? recLiveDTO;
-  int? roomId;
+  String? roomId;
   int? startStreamTag;
   String? startStreamTagName;
-  int? startTime;
+  String? startTime;
   String? title;
-  String? alg;
-  String? id;
-  String? logInfo;
-  int? matchField;
-  int? mlogBaseDataType;
   Resource? resource;
-  bool? sameCity;
   int? type;
   UserInfo? userInfo;
   String? verticalCover;
-  int? verticalCoverId;
+  String? verticalCoverId;
   String? subtitle;
   List<DiscoveryBannerBean>? banners;
   List<BlockRoomInfoBean>? roomInfoList;
@@ -90,8 +82,6 @@ class BlockExtInfoBean {
       this.liveStatus,
       this.liveType,
       this.liveUrl,
-      this.onlineNumber,
-      this.orientationScope,
       this.popularity,
       this.privateTag,
       this.recLiveDTO,
@@ -100,13 +90,7 @@ class BlockExtInfoBean {
       this.startStreamTagName,
       this.startTime,
       this.title,
-      this.alg,
-      this.id,
-      this.logInfo,
-      this.matchField,
-      this.mlogBaseDataType,
       this.resource,
-      this.sameCity,
       this.type,
       this.userInfo,
       this.verticalCover,
@@ -123,38 +107,25 @@ class BlockExtInfoBean {
     appKeyType = json["appKeyType"];
     bgCoverUrl = json["bgCoverUrl"];
     cover = json["cover"];
-    coverId = json["coverId"];
+    coverId = json["coverId"] is String ? json["coverId"] : json["coverId"].toString();
     endTime = json["endTime"];
-    liveId = json["liveId"];
+    liveId = json["liveId"] is String ? json["liveId"] : json["liveId"].toString();
     liveStatus = json["liveStatus"];
     liveType = json["liveType"];
-    liveUrl =
-        json["liveUrl"] != null ? LiveUrl.fromJson(json["liveUrl"]) : null;
-    onlineNumber = json["onlineNumber"];
-    orientationScope = json["orientationScope"];
+    liveUrl = json["liveUrl"] != null ? LiveUrl.fromJson(json["liveUrl"]) : null;
     popularity = json["popularity"];
     privateTag = json["privateTag"];
-    recLiveDTO = json["recLiveDTO"] != null
-        ? RecLiveDTO.fromJson(json["recLiveDTO"])
-        : null;
-    roomId = json["roomId"];
+    recLiveDTO = json["recLiveDTO"] != null ? RecLiveDTO.fromJson(json["recLiveDTO"]) : null;
+    roomId = json["roomId"] is String ? json["roomId"] : json["roomId"].toString();
     startStreamTag = json["startStreamTag"];
     startStreamTagName = json["startStreamTagName"];
-    startTime = json["startTime"];
+    startTime = json["startTime"] is String ? json["startTime"] : json["startTime"].toString();
     title = json["title"];
-    alg = json["alg"];
-    id = json["id"];
-    logInfo = json["logInfo"];
-    matchField = json["matchField"];
-    mlogBaseDataType = json["mlogBaseDataType"];
-    resource =
-        json["resource"] != null ? Resource.fromJson(json["resource"]) : null;
-    sameCity = json["sameCity"];
+    resource = json["resource"] != null ? Resource.fromJson(json["resource"]) : null;
     type = json["type"];
-    userInfo =
-        json["userInfo"] != null ? UserInfo.fromJson(json["userInfo"]) : null;
+    userInfo = json["userInfo"] != null ? UserInfo.fromJson(json["userInfo"]) : null;
     verticalCover = json["verticalCover"];
-    verticalCoverId = json["verticalCoverId"];
+    verticalCoverId = json["verticalCoverId"] is String ? json["verticalCoverId"] : json["verticalCoverId"].toString();
     subtitle = json["subtitle"];
     if (json["banners"] != null) {
       banners = [];
@@ -187,8 +158,6 @@ class BlockExtInfoBean {
     if (liveUrl != null) {
       map["liveUrl"] = liveUrl?.toJson();
     }
-    map["onlineNumber"] = onlineNumber;
-    map["orientationScope"] = orientationScope;
     map["popularity"] = popularity;
     map["privateTag"] = privateTag;
     if (recLiveDTO != null) {
@@ -199,15 +168,9 @@ class BlockExtInfoBean {
     map["startStreamTagName"] = startStreamTagName;
     map["startTime"] = startTime;
     map["title"] = title;
-    map["alg"] = alg;
-    map["id"] = id;
-    map["logInfo"] = logInfo;
-    map["matchField"] = matchField;
-    map["mlogBaseDataType"] = mlogBaseDataType;
     if (resource != null) {
       map["resource"] = resource?.toJson();
     }
-    map["sameCity"] = sameCity;
     map["type"] = type;
     if (userInfo != null) {
       map["userInfo"] = userInfo?.toJson();
@@ -292,25 +255,14 @@ class Resource {
   int? status;
   UserProfile? userProfile;
 
-  Resource(
-      {this.mlogBaseData,
-      this.mlogExtVO,
-      this.shareUrl,
-      this.status,
-      this.userProfile});
+  Resource({this.mlogBaseData, this.mlogExtVO, this.shareUrl, this.status, this.userProfile});
 
   Resource.fromJson(dynamic json) {
-    mlogBaseData = json["mlogBaseData"] != null
-        ? MlogBaseData.fromJson(json["mlogBaseData"])
-        : null;
-    mlogExtVO = json["mlogExtVO"] != null
-        ? MlogExtVO.fromJson(json["mlogExtVO"])
-        : null;
+    mlogBaseData = json["mlogBaseData"] != null ? MlogBaseData.fromJson(json["mlogBaseData"]) : null;
+    mlogExtVO = json["mlogExtVO"] != null ? MlogExtVO.fromJson(json["mlogExtVO"]) : null;
     shareUrl = json["shareUrl"];
     status = json["status"];
-    userProfile = json["userProfile"] != null
-        ? UserProfile.fromJson(json["userProfile"])
-        : null;
+    userProfile = json["userProfile"] != null ? UserProfile.fromJson(json["userProfile"]) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -348,18 +300,10 @@ class UserProfile {
   int? userType;
 
   UserProfile(
-      {this.avatarDetail,
-      this.avatarUrl,
-      this.followed,
-      this.isAnchor,
-      this.nickname,
-      this.userId,
-      this.userType});
+      {this.avatarDetail, this.avatarUrl, this.followed, this.isAnchor, this.nickname, this.userId, this.userType});
 
   UserProfile.fromJson(dynamic json) {
-    avatarDetail = json["avatarDetail"] != null
-        ? AvatarDetail.fromJson(json["avatarDetail"])
-        : null;
+    avatarDetail = json["avatarDetail"] != null ? AvatarDetail.fromJson(json["avatarDetail"]) : null;
     avatarUrl = json["avatarUrl"];
     followed = json["followed"];
     isAnchor = json["isAnchor"];
@@ -424,13 +368,7 @@ class MlogExtVO {
   Song? song;
   int? videoStartPlayTime;
 
-  MlogExtVO(
-      {this.canCollect,
-      this.commentCount,
-      this.likedCount,
-      this.playCount,
-      this.song,
-      this.videoStartPlayTime});
+  MlogExtVO({this.canCollect, this.commentCount, this.likedCount, this.playCount, this.song, this.videoStartPlayTime});
 
   MlogExtVO.fromJson(dynamic json) {
     canCollect = json["canCollect"];
@@ -470,13 +408,7 @@ class Song {
   int? id;
   String? name;
 
-  Song(
-      {this.albumName,
-      this.artists,
-      this.coverUrl,
-      this.duration,
-      this.id,
-      this.name});
+  Song({this.albumName, this.artists, this.coverUrl, this.duration, this.id, this.name});
 
   Song.fromJson(dynamic json) {
     albumName = json["albumName"];
@@ -541,40 +473,34 @@ class Artists {
 /// type : 2
 
 class MlogBaseData {
-  int? coverColor;
   int? coverHeight;
   String? coverPicKey;
   String? coverUrl;
   int? coverWidth;
-  int? duration;
+  String? duration;
   String? id;
-  int? pubTime;
   String? text;
   String? threadId;
   int? type;
 
   MlogBaseData(
-      {this.coverColor,
-      this.coverHeight,
+      {this.coverHeight,
       this.coverPicKey,
       this.coverUrl,
       this.coverWidth,
       this.duration,
       this.id,
-      this.pubTime,
       this.text,
       this.threadId,
       this.type});
 
   MlogBaseData.fromJson(dynamic json) {
-    coverColor = json["coverColor"];
     coverHeight = json["coverHeight"];
     coverPicKey = json["coverPicKey"];
     coverUrl = json["coverUrl"];
     coverWidth = json["coverWidth"];
-    duration = json["duration"];
+    duration = json["duration"] is String ? json["duration"] : json["duration"].toString();
     id = json["id"];
-    pubTime = json["pubTime"];
     text = json["text"];
     threadId = json["threadId"];
     type = json["type"];
@@ -582,14 +508,12 @@ class MlogBaseData {
 
   Map<String, dynamic> toJson() {
     var map = <String, dynamic>{};
-    map["coverColor"] = coverColor;
     map["coverHeight"] = coverHeight;
     map["coverPicKey"] = coverPicKey;
     map["coverUrl"] = coverUrl;
     map["coverWidth"] = coverWidth;
     map["duration"] = duration;
     map["id"] = id;
-    map["pubTime"] = pubTime;
     map["text"] = text;
     map["threadId"] = threadId;
     map["type"] = type;
@@ -612,13 +536,7 @@ class RecLiveDTO {
   int? songId;
   String? typeDesc;
 
-  RecLiveDTO(
-      {this.accompanimentId,
-      this.alg,
-      this.cardType,
-      this.recCoverId,
-      this.songId,
-      this.typeDesc});
+  RecLiveDTO({this.accompanimentId, this.alg, this.cardType, this.recCoverId, this.songId, this.typeDesc});
 
   RecLiveDTO.fromJson(dynamic json) {
     accompanimentId = json["accompanimentId"];
