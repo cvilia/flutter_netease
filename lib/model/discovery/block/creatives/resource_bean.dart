@@ -17,26 +17,16 @@ class ResourceBean {
   DiscoveryUiElementBean? uiElement;
   bool? valid;
 
-  ResourceBean(
-      {
-      this.logInfo,
-      this.resourceId,
-      this.resourceType,
-      this.uiElement,
-      this.valid});
+  ResourceBean({this.logInfo, this.resourceId, this.resourceType, this.uiElement, this.valid});
 
   ResourceBean.fromJson(dynamic json) {
-    // logInfo = json["logInfo"];
-    // uiElement = json["resourceExtInfo"] != null
-    //     ? DiscoveryUiElementBean.fromJson(json["resourceExtInfo"])
-    //     : null;
-    // resourceId = json["resourceId"];
-    // resourceType = json["resourceType"];
-    // resourceUrl = json["resourceUrl"];
-    // uiElement = json["uiElement"] != null
-    //     ? DiscoveryUiElementBean.fromJson(json["uiElement"])
-    //     : null;
-    // valid = json["valid"];
+    logInfo = json["logInfo"];
+    uiElement = json["resourceExtInfo"] != null ? DiscoveryUiElementBean.fromJson(json["resourceExtInfo"]) : null;
+    resourceId = json["resourceId"];
+    resourceType = json["resourceType"];
+    resourceUrl = json["resourceUrl"];
+    uiElement = json["uiElement"] != null ? DiscoveryUiElementBean.fromJson(json["uiElement"]) : null;
+    valid = json["valid"];
   }
 
   Map<String, dynamic> toJson() {

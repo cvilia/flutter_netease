@@ -12,7 +12,7 @@ class CreativesBean {
   String? code;
   CreativeExtInfoVO? creativeExtInfoVO;
   String? creativeId;
-  ResourceBean? resources;
+  List<ResourceBean>? resources;
   DiscoveryUiElementBean? uiElement;
   String? source;
   String? traceId;
@@ -24,7 +24,9 @@ class CreativesBean {
     creativeExtInfoVO =
         json["creativeExtInfoVO"] != null ? CreativeExtInfoVO.fromJson(json["creativeExtInfoVO"]) : null;
     creativeId = json["creativeId"];
-    resources = json["resources"] != null ? ResourceBean.fromJson(json["resources"]) : null;
+    if (json["resources"] != null) {
+      json["resources"].forEach((v) => resources?.add(ResourceBean.fromJson(v)));
+    }
     uiElement = json["uiElement"] != null ? DiscoveryUiElementBean.fromJson(json["uiElement"]) : null;
     source = json["source"];
     traceId = json["traceId"];
@@ -38,7 +40,7 @@ class CreativesBean {
     }
     map["creativeId"] = creativeId;
     if (resources != null) {
-      map["resources"] = resources?.toJson();
+      map["resources"] = resources?.map((e) => e.toJson()).toList();
     }
     if (uiElement != null) {
       map["uiElement"] = uiElement?.toJson();
