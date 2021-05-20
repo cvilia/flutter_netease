@@ -1,5 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_card_swipper/flutter_card_swiper.dart';
+import 'package:flutter_card_swipper/widgets/flutter_page_indicator/flutter_page_indicator.dart';
 import 'package:flutter_netease/controller/main/discovery/discovery_page_controller.dart';
 import 'package:flutter_netease/model/discovery/block/banner/discovery_banner_bean.dart';
 import 'package:flutter_netease/util/scroll_behavior.dart';
@@ -47,14 +49,52 @@ class DiscoveryPage extends StatelessWidget {
           child: CustomScrollView(
             slivers: [
               SliverToBoxAdapter(
-                child: Container(),
+                child: Container(
+                  height: 140,
+                  child: Swiper(
+                    itemCount: banners.length,
+                    autoplay: true,
+                    indicatorLayout: PageIndicatorLayout.COLOR,
+                    onIndexChanged: (index) => controller.onBannerCardClicked(),
+                    itemBuilder: (ctx, index) {
+                      return Stack(
+                        children: [
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(10),
+                            child: CachedNetworkImage(
+                              width: double.infinity,
+                              height: 140,
+                              imageUrl: banners[index].pic!,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                          Positioned(
+                            child: Container(
+                              padding: EdgeInsets.symmetric(horizontal: 5, vertical: 2),
+                              decoration: BoxDecoration(
+                                  color: Colors.red,
+                                  borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(10), bottomRight: Radius.circular(10))),
+                              child: Text(
+                                banners[index].typeTitle!,
+                                style: TextStyle(color: Colors.white, fontSize: 12),
+                              ),
+                            ),
+                            bottom: 0,
+                            right: 0,
+                          )
+                        ],
+                      );
+                    },
+                  ),
+                ),
               )
             ],
           ),
         ),
       );
     } else {
-      return Container();
+      return pageError();
     }
   }
 }

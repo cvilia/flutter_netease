@@ -15,6 +15,10 @@ class DiscoveryPageController extends GetxController {
   ///页面状态，0=刚进入 200=OK，其他=错误
   var pageStatus = 0.obs;
 
+  ///点击了banner
+  void onBannerCardClicked(){}
+
+
   @override
   void onInit() {
     super.onInit();
@@ -23,11 +27,13 @@ class DiscoveryPageController extends GetxController {
       if (jsonMap['code'] == 200) {
         DiscoveryBean discoveryBean = DiscoveryBean.fromJson(jsonMap);
         hasMore.value = discoveryBean.data!.hasMore!;
-        cursor.value = discoveryBean.data!.cursor!;
+        if(discoveryBean.data!.cursor!= null){
+          cursor.value=discoveryBean.data!.cursor!;
+        }
         blocks.value = discoveryBean.data!.blocks!;
-        // pageStatus.value = 200;
+        pageStatus.value = 200;
       } else {
-        // pageStatus.value = -1;
+        pageStatus.value = -1;
       }
     });
   }
