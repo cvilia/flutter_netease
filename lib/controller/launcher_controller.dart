@@ -48,7 +48,7 @@ class LauncherController extends GetxController {
   void route2App() async {
     bool hasLogin = await SpUtil.getBool(Constant.SP_USER_LOGIN, false);
     if (hasLogin) {
-      Get.offNamed(Routes.HOME);
+      Get.offNamed(Routes.MAIN);
     } else {
       Get.offNamed(Routes.LOGIN);
     }

@@ -1,5 +1,6 @@
 package com.cvilia.bubblemusic
 
+import android.app.Application
 import android.util.Log
 import io.flutter.app.FlutterApplication
 
@@ -11,8 +12,13 @@ import io.flutter.app.FlutterApplication
  */
 class NeteaseApplication : FlutterApplication() {
 
+    companion object{
+        lateinit var app:Application
+    }
+
     override fun onCreate() {
         super.onCreate()
+        app = this
         if (BuildConfig.DEBUG) {
             Log.i("UMLog", "UMConfigure.init@NeteaseApplication")
         }

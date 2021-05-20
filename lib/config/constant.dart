@@ -1,6 +1,5 @@
 import 'package:flutter/services.dart';
 
-const MethodChannel logChannel = MethodChannel('com.cvilia.bubble-log');
 
 class Constant {
   ///User相关

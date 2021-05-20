@@ -64,7 +64,7 @@ class LoginController extends GetxController
       var json = jsonDecode(response.data.toString());
       if (json['code'] == 200) {
         saveUserInfo(json, encryptPassword, account);
-        Get.offNamed(Routes.HOME);
+        Get.offNamed(Routes.MAIN);
       } else {
         Get.dialog(
             MessageButtonDialog(message: json['msg'], onTap: () => Get.back()));

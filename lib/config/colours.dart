@@ -14,7 +14,7 @@ abstract class Colours {
   static const Color app_main_text_hint = Color(0x88495c69);
 
   ///unfixed state
-  static const Color app_main_unselected = Color(0xff495c69);
+  static const Color app_main_unselected = Color(0xff707070);
 
   ///icon
   static const Color app_main_action_bar_icon = Color(0xff495c69);
