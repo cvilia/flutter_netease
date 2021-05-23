@@ -87,25 +87,15 @@ class MainPage extends StatelessWidget {
   List<BottomNavigationBarItem> getItems() {
     return [
       BottomNavigationBarItem(
-          backgroundColor: Colours.app_main_background,
-          icon: ImageIcon(AssetImage('assets/images/main_page/main_navigation_item_discovery.png')),
-          label: '发现'),
+          icon: ImageIcon(AssetImage('assets/images/main_page/main_navigation_item_discovery.png')), label: '发现'),
       BottomNavigationBarItem(
-          backgroundColor: Colours.app_main_background,
-          icon: ImageIcon(AssetImage('assets/images/main_page/main_navigation_item_podcast.png')),
-          label: '播客'),
+          icon: ImageIcon(AssetImage('assets/images/main_page/main_navigation_item_podcast.png')), label: '播客'),
       BottomNavigationBarItem(
-          backgroundColor: Colours.app_main_background,
-          icon: ImageIcon(AssetImage('assets/images/main_page/main_navigation_item_my.png')),
-          label: '我的'),
+          icon: ImageIcon(AssetImage('assets/images/main_page/main_navigation_item_my.png')), label: '我的'),
       BottomNavigationBarItem(
-          backgroundColor: Colours.app_main_background,
-          icon: ImageIcon(AssetImage('assets/images/main_page/main_navigation_item_ktv.png')),
-          label: 'K歌'),
+          icon: ImageIcon(AssetImage('assets/images/main_page/main_navigation_item_ktv.png')), label: 'K歌'),
       BottomNavigationBarItem(
-          backgroundColor: Colours.app_main_background,
-          icon: ImageIcon(AssetImage('assets/images/main_page/main_navigation_item_cloud.png')),
-          label: '云村'),
+          icon: ImageIcon(AssetImage('assets/images/main_page/main_navigation_item_cloud.png')), label: '云村'),
     ];
   }
 }

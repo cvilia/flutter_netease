@@ -14,11 +14,13 @@ void main() {
       initialRoute: AppPages.INITIAL,
       defaultTransition: Transition.fade,
       getPages: AppPages.routes,
+      theme: ThemeData(
+        splashColor: Color.fromRGBO(0, 0, 0, 0),
+      ),
     ),
   );
   if (Platform.isAndroid) {
-    SystemChrome.setPreferredOrientations(
-        [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
 
     ///隐藏手机底部的导航条
     // SystemChrome.setEnabledSystemUIOverlays([SystemUiOverlay.top]);
@@ -37,7 +39,6 @@ class DetourHttps extends HttpOverrides {
   @override
   HttpClient createHttpClient(SecurityContext? context) {
     // TODO: implement createHttpClient
-    return super.createHttpClient(context)
-      ..badCertificateCallback = (_, __, ___) => true;
+    return super.createHttpClient(context)..badCertificateCallback = (_, __, ___) => true;
   }
 }

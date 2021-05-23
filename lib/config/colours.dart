@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 
 abstract class Colours {
-  static const Color app_main = Color(0xffbc84a8);
-  static const Color app_main_red = Color(0xfff14752);
+  static const Color app_main = Color(0xfff83838);
+  static const Color app_main_red = Color(0xfff83838);
+
+  static const Color red_gradient_start = Color(0xfff88888);
+  static const Color red_gradient_end = Color(0xfff83838);
 
   ///background、border
   static const Color app_main_background = Color(0xffefefef);
