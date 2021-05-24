@@ -7,7 +7,7 @@ abstract class Colours {
   static const Color red_gradient_start = Color(0xfff88888);
   static const Color red_gradient_end = Color(0xfff83838);
 
-  static const Color discovery_function_widget_background = Color(0xfff3cece);
+  static const Color discovery_function_widget_background = Color(0x66f3cece);
 
   ///background、border
   static const Color app_main_background = Color(0xffefefef);

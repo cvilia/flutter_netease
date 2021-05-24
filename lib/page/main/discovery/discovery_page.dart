@@ -113,6 +113,7 @@ class DiscoveryPage extends StatelessWidget {
     return Container(
       height: 75,
       child: ListView(
+        key: DiscoveryPageController.to.globalKey.value,
         scrollDirection: Axis.horizontal,
         children: [
           _baseItemFunction('每日推荐', 'assets/images/main_page/function_widgets/discovery_day_recommend_icon.png',
@@ -153,14 +154,14 @@ class DiscoveryPage extends StatelessWidget {
             child: CircleAvatar(
               radius: 25,
               backgroundColor: Colours.discovery_function_widget_background,
-              child: Image.asset(assetImage, width: 28),
+              child: Image.asset(assetImage, width: 25),
             ),
           ),
           Padding(
-            padding: EdgeInsets.only(top: 10),
+            padding: EdgeInsets.only(top: 8),
             child: Text(
               text,
-              style: TextStyle(color: Colours.app_main_text, fontSize: 11),
+              style: TextStyle(color: Colours.app_main_text, fontSize: 12, fontWeight: FontWeight.w500),
             ),
           )
         ],
