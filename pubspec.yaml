@@ -68,6 +68,7 @@ flutter:
   assets:
    - assets/images/main_page/
    - assets/anim/
+   - assets/images/main_page/function_widgets/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
