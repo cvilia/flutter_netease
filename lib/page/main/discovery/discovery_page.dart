@@ -41,10 +41,10 @@ class DiscoveryPage extends StatelessWidget {
           behavior: MyBehavior(),
           child: ListView.separated(
               shrinkWrap: true,
-              itemBuilder: (ctx, index) => _itemContent(controller.blocks.value!, index),
+              itemBuilder: (ctx, index) =>
+                  _itemContent(controller.blocks.value?[index], controller.blocks.value?[index].showType),
               separatorBuilder: (ctx, index) => Container(height: 20, width: double.infinity),
-              itemCount:
-                  controller.hasMore.value ? controller.blocks.value!.length + 2 : controller.blocks.value!.length + 1),
+              itemCount: controller.blocks.value!.length + 1),
         ),
       );
     } else {
@@ -52,14 +52,14 @@ class DiscoveryPage extends StatelessWidget {
     }
   }
 
-  Widget _itemContent(List<BlockBean> blocks, int index) {
+  ///以为中间加了banner下面的小部件，所以block可能为空，这时候showType也为空
+  Widget _itemContent(BlockBean? block, String? showType) {
     Widget child;
-    if (index == 0) {
-      child = _bannerContent(blocks[0]);
-    } else if (index == 1) {
-      return _itemFunctionWidgets();
+    String? type = showType?.toLowerCase();
+    if (showType == 'BANNER') {
+      child = _bannerContent(block!);
     } else {
-      child = Container();
+      child = _itemFunctionWidgets();
     }
     return child;
   }
@@ -88,19 +88,19 @@ class DiscoveryPage extends StatelessWidget {
                 ),
               ),
               Positioned(
-                child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 5, vertical: 2),
-                  decoration: BoxDecoration(
-                      color: Colors.red,
-                      borderRadius: BorderRadius.only(topLeft: Radius.circular(10), bottomRight: Radius.circular(10))),
-                  child: Text(
-                    banners[index].typeTitle!,
-                    style: TextStyle(color: Colors.white, fontSize: 12),
+                  child: Container(
+                    padding: EdgeInsets.symmetric(horizontal: 5, vertical: 2),
+                    decoration: BoxDecoration(
+                        color: Colors.red,
+                        borderRadius:
+                            BorderRadius.only(topLeft: Radius.circular(10), bottomRight: Radius.circular(10))),
+                    child: Text(
+                      banners[index].typeTitle!,
+                      style: TextStyle(color: Colors.white, fontSize: 12),
+                    ),
                   ),
-                ),
-                bottom: 0,
-                right: 0,
-              )
+                  bottom: 0,
+                  right: 0)
             ],
           );
         },
