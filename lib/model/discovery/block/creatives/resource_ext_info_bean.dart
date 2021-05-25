@@ -1,12 +1,13 @@
-
 import 'resource_artist_bean.dart';
 import 'resource_song_data_bean.dart';
 
 class ResourceExtInfoBean {
   List<ResourceArtistBean>? artists;
   ResourceSongDataBean? songData;
+  bool? highQuality;
+  String? playCount;
 
-  ResourceExtInfoBean({this.artists, this.songData});
+  ResourceExtInfoBean({this.artists, this.songData, this.playCount, this.highQuality});
 
   ResourceExtInfoBean.fromJson(dynamic json) {
     if (json["artists"] != null) {
@@ -15,10 +16,10 @@ class ResourceExtInfoBean {
         artists?.add(ResourceArtistBean.fromJson(v));
       });
     }
+    playCount = json["playCount"] is String ? json["playCount"] : json["playCount"].toString();
+    highQuality = json["highQuality"];
 
-    songData = json["songData"] != null
-        ? ResourceSongDataBean.fromJson(json["songData"])
-        : null;
+    songData = json["songData"] != null ? ResourceSongDataBean.fromJson(json["songData"]) : null;
   }
 
   Map<String, dynamic> toJson() {

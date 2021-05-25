@@ -22,6 +22,28 @@ class DiscoveryPageController extends GetxController {
 
   static DiscoveryPageController get to => Get.find();
 
+  String abbreviatedNumber(String playCount) {
+    if (playCount.length < 5) {
+      return playCount;
+    } else if (playCount.length < 6) {
+      return '${playCount.substring(0, 1)}.${playCount.substring(1, 2)}万';
+    } else if (playCount.length < 7) {
+      return '${playCount.substring(0, 2)}万';
+    } else if (playCount.length < 8) {
+      return '${playCount.substring(0, 3)}万';
+    } else if (playCount.length < 9) {
+      return '${playCount.substring(0, 4)}万';
+    } else if (playCount.length < 10) {
+      return '${playCount.substring(0, 1)}.${playCount.substring(1, 2)}亿';
+    } else if (playCount.length < 11) {
+      return '${playCount.substring(0, 2)}亿';
+    } else if (playCount.length < 12) {
+      return '${playCount.substring(0, 3)}亿';
+    } else {
+      return '${playCount.substring(0, 4)}亿';
+    }
+  }
+
   ///点击了banner
   void onBannerCardClicked() {}
 

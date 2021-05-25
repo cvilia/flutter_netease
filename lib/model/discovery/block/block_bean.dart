@@ -5,6 +5,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 class BlockBean {
   String? showType;
+  String? blockCode;
   String? logInfo;
   bool? canClose;
   @JsonKey(name: "extInfo")
@@ -18,6 +19,7 @@ class BlockBean {
 
   BlockBean.fromJson(dynamic json) {
     showType = json["showType"];
+    blockCode = json["blockCode"];
     logInfo = json["logInfo"];
     canClose = json["canClose"];
     uiElement = json["uiElement"] == null ? null : DiscoveryUiElementBean.fromJson(json["uiElement"]);
@@ -38,6 +40,7 @@ class BlockBean {
   Map<String, dynamic> toJson() {
     var map = <String, dynamic>{};
     map["showType"] = showType;
+    map["blockCode"] = blockCode;
     map["logInfo"] = logInfo;
     map["canClose"] = canClose;
     if (uiElement != null) {

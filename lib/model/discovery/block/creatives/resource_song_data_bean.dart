@@ -208,12 +208,12 @@ class HMusic {
   HMusic({this.bitrate, this.extension, this.id, this.playTime, this.size, this.sr});
 
   HMusic.fromJson(dynamic json) {
-    bitrate = json["bitrate"];
+    bitrate = json["bitrate"] is String ? json["bitrate"] : json["bitrate"].toString();
     extension = json["extension"];
-    id = json["id"];
-    playTime = json["playTime"];
-    size = json["size"];
-    sr = json["sr"];
+    id = json["id"] is String ? json["id"] : json["id"].toString();
+    playTime = json["playTime"] is String ? json["playTime"] : json["playTime"].toString();
+    size = json["size"] is String ? json["size"] : json["size"].toString();
+    sr = json["sr"] is String ? json["sr"] : json["sr"].toString();
   }
 
   Map<String, dynamic> toJson() {

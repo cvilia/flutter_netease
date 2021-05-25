@@ -11,11 +11,12 @@ abstract class Colours {
 
   ///background、border
   static const Color app_main_background = Color(0xffefefef);
-  static const Color app_main_border = Color(0xff495c69);
+  static const Color app_main_divider = Color(0xffdfdfdf);
+  static const Color app_main_border = Color(0xff8f8f8f);
   static const Color app_main_courser = Color(0xff495c69);
 
   ///text
-  static const Color app_main_text = Color(0xff495c69);
+  static const Color app_main_text = Color(0xff1a1a1a);
   static const Color app_main_text_hint = Color(0x88495c69);
 
   ///unfixed state

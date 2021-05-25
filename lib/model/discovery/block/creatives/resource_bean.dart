@@ -21,7 +21,7 @@ class ResourceBean {
 
   ResourceBean.fromJson(dynamic json) {
     logInfo = json["logInfo"];
-    uiElement = json["resourceExtInfo"] != null ? DiscoveryUiElementBean.fromJson(json["resourceExtInfo"]) : null;
+    resourceExtInfo = json["resourceExtInfo"] != null ? ResourceExtInfoBean.fromJson(json["resourceExtInfo"]) : null;
     resourceId = json["resourceId"];
     resourceType = json["resourceType"];
     resourceUrl = json["resourceUrl"];

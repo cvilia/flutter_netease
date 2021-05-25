@@ -25,7 +25,9 @@ class CreativesBean {
         json["creativeExtInfoVO"] != null ? CreativeExtInfoVO.fromJson(json["creativeExtInfoVO"]) : null;
     creativeId = json["creativeId"];
     if (json["resources"] != null) {
-      json["resources"].forEach((v) => resources?.add(ResourceBean.fromJson(v)));
+      resources = [];
+      (json["resources"] as List)
+          .forEach((element) => resources?.add(ResourceBean.fromJson(element)));
     }
     uiElement = json["uiElement"] != null ? DiscoveryUiElementBean.fromJson(json["uiElement"]) : null;
     source = json["source"];
