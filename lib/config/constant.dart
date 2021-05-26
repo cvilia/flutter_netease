@@ -11,6 +11,7 @@ class Constant {
   static const String SP_USER_GENDER = 'user_gender';
   static const String SP_USER_PASSWORD = 'user_password';
   static const String SP_USER_MD5_PASSWORD = 'user_md5_password';
+  static const String SP_USER_COOKIE = 'user_login_cookie';
 
   static const String SP_LAUNCHER_IMG_URL = 'launcher_img_url';
 }

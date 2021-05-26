@@ -12,7 +12,6 @@ import 'package:flutter_netease/model/discovery/block/banner/discovery_banner_be
 import 'package:flutter_netease/model/discovery/block/block_bean.dart';
 import 'package:flutter_netease/util/scroll_behavior.dart';
 import 'package:flutter_netease/widget/hide_keyboard.dart';
-import 'package:flutter_netease/widget/image_wrapper.dart';
 import 'package:flutter_netease/widget/page_status.dart';
 import 'package:get/get.dart';
 
@@ -71,7 +70,7 @@ class DiscoveryPage extends StatelessWidget {
       child = _itemRecommendSongList(block!);
     } else if (showType == 'HOMEPAGE_BLOCK_STYLE_RCMD') {
       ///二次元里的惊喜世界
-      child = Container();
+      child = _itemOfficialRecommendSongs(block!);
     } else if (showType == 'HOMEPAGE_MUSIC_MLOG') {
       ///精选音乐视频
       child = Container();
@@ -224,87 +223,141 @@ class DiscoveryPage extends StatelessWidget {
 
   ///推荐歌单
   Widget _itemRecommendSongList(BlockBean block) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Container(height: 0.5, color: Colours.app_main_divider),
-        Container(
-          width: double.infinity,
-          alignment: Alignment.center,
-          padding: EdgeInsets.symmetric(horizontal: 15),
-          margin: EdgeInsets.symmetric(vertical: 5),
-          height: 30,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              _itemSubTitle(block.uiElement!.subTitle!.title!),
-              _itemButtonBorder(Row(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  _itemButtonText(block.uiElement!.button!.text!),
-                  SizedBox(
-                    width: 8,
-                    child: Image.asset(
-                      'assets/images/main_page/discovery/discovery_item_title_button_right.png',
+    return Container(
+      padding: EdgeInsets.symmetric(vertical: 10),
+      decoration:
+          ShapeDecoration(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)), color: Colors.white),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          // Container(height: 0.5, color: Colours.app_main_divider),
+          Container(
+            width: double.infinity,
+            alignment: Alignment.center,
+            padding: EdgeInsets.symmetric(horizontal: 15),
+            margin: EdgeInsets.only(bottom: 10),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                _itemSubTitle(block.uiElement!.subTitle!.title!),
+                _itemButtonBorder(Row(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    _itemButtonText(block.uiElement!.button!.text!),
+                    SizedBox(
                       width: 8,
-                      fit: BoxFit.cover,
-                    ),
-                  )
-                ],
-              ))
-            ],
-          ),
-        ),
-        Container(
-          height: 130,
-          child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemBuilder: (ctx, index) {
-                return Container(
-                  width: index == 0 || index == (block.creatives!.length - 1) ? 110 : 100,
-                  height: 130,
-                  padding: EdgeInsets.only(
-                      left: index == 0 ? 15 : 5, right: index == (block.creatives!.length - 1) ? 15 : 5),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      SizedBox(
-                        height: 100,
-                        width: 100,
-                        child: Stack(
-                          children: [
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(10),
-                              child: Image.network(
-                                block.creatives![index].uiElement!.image!.imageUrl!,
-                                width: 100,
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                            Positioned(
-                              child: _itemPlayCountStyle(DiscoveryPageController.to.abbreviatedNumber(
-                                  block.creatives![index].resources![0].resourceExtInfo!.playCount!)),
-                              top: 2,
-                              right: 2,
-                            )
-                          ],
-                        ),
+                      child: Image.asset(
+                        'assets/images/main_page/discovery/discovery_item_title_button_right.png',
+                        width: 8,
+                        fit: BoxFit.cover,
                       ),
-                      Text(
-                        block.creatives![index].uiElement!.mainTitle!.title!,
-                        maxLines: 2,
-                        softWrap: true,
-                        style: TextStyle(color: Colours.app_main_text, fontSize: 10, fontWeight: FontWeight.w500),
-                      )
-                    ],
-                  ),
-                );
-              },
-              itemCount: block.creatives!.length),
-        )
-      ],
+                    )
+                  ],
+                ))
+              ],
+            ),
+          ),
+          Container(
+            height: 130,
+            child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemBuilder: (ctx, index) {
+                  return Container(
+                    width: index == 0 || index == (block.creatives!.length - 1) ? 110 : 100,
+                    height: 130,
+                    padding: EdgeInsets.only(
+                        left: index == 0 ? 15 : 5, right: index == (block.creatives!.length - 1) ? 15 : 5),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        SizedBox(
+                          height: 100,
+                          width: 100,
+                          child: Stack(
+                            children: [
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(10),
+                                child: Image.network(
+                                  block.creatives![index].uiElement!.image!.imageUrl!,
+                                  width: 100,
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                              Positioned(
+                                child: _itemPlayCountStyle(DiscoveryPageController.to.abbreviatedNumber(
+                                    block.creatives![index].resources![0].resourceExtInfo!.playCount!)),
+                                top: 2,
+                                right: 2,
+                              )
+                            ],
+                          ),
+                        ),
+                        Text(
+                          block.creatives![index].uiElement!.mainTitle!.title!,
+                          maxLines: 2,
+                          softWrap: true,
+                          style: TextStyle(color: Colours.app_main_text, fontSize: 10, fontWeight: FontWeight.w500),
+                        )
+                      ],
+                    ),
+                  );
+                },
+                itemCount: block.creatives!.length),
+          )
+        ],
+      ),
     );
+  }
+
+  ///推荐歌单下面的官方推荐的歌曲
+  Widget _itemOfficialRecommendSongs(BlockBean block) {
+    return Container(
+      padding: EdgeInsets.symmetric(vertical: 10),
+      decoration:
+          ShapeDecoration(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)), color: Colors.white),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+            width: double.infinity,
+            alignment: Alignment.center,
+            padding: EdgeInsets.symmetric(horizontal: 15),
+            margin: EdgeInsets.only(bottom: 10),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                _itemSubTitle(block.uiElement!.subTitle!.title!),
+                _itemButtonBorder(Row(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                      width: 8,
+                      child: Image.asset(
+                        'assets/images/main_page/discovery/discovery_item_title_button_play.png',
+                        width: 8,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                    _itemButtonText(block.uiElement!.button!.text!),
+                  ],
+                ))
+              ],
+            ),
+          ),
+          PageView(
+            children: _getItemOfficialRecommendSongsPageViewItem(block),
+          )
+        ],
+      ),
+    );
+  }
+
+  List<Widget> _getItemOfficialRecommendSongsPageViewItem(BlockBean block) {
+    // for(int i = 1;i<block.)
+    List<Widget> children = <Widget>[];
+    return children;
   }
 
   ///item主标题Title 样式
@@ -357,11 +410,11 @@ class DiscoveryPage extends StatelessWidget {
             width: 8,
             child: Image.asset(
               'assets/images/main_page/discovery/discovery_item_play_count.png',
-              matchTextDirection: true,excludeFromSemantics:true,
+              matchTextDirection: true,
+              excludeFromSemantics: true,
             ),
           ),
           Text(
-
             playCount,
             style: TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.w500),
           )

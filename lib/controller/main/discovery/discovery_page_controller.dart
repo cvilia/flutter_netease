@@ -1,10 +1,12 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_netease/config/constant.dart';
 import 'package:flutter_netease/http/api.dart';
 import 'package:flutter_netease/http/dio_helper.dart';
 import 'package:flutter_netease/model/discovery/block/block_bean.dart';
 import 'package:flutter_netease/model/discovery/discovery_bean.dart';
+import 'package:flutter_netease/util/sp_util.dart';
 import 'package:get/get.dart';
 
 ///首页 发现模块controller
@@ -77,10 +79,11 @@ class DiscoveryPageController extends GetxController {
   void onClickGames() {}
 
   @override
-  void onInit() {
+  void onInit() async {
     super.onInit();
     globalKey.value = GlobalKey();
-    dioHelper.get(Api.GET_DISCOVERY_DATA, callBack: (response) {
+    dioHelper.get(Api.GET_DISCOVERY_DATA, params: {'cookie': await SpUtil.getString(Constant.SP_USER_COOKIE)},
+        callBack: (response) {
       var jsonMap = jsonDecode(response.data);
       if (jsonMap['code'] == 200) {
         DiscoveryBean discoveryBean = DiscoveryBean.fromJson(jsonMap);

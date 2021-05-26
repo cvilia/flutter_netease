@@ -101,5 +101,6 @@ class LoginController extends GetxController with StateMixin, SingleGetTickerPro
     await SpUtil.putString(Constant.SP_USER_ID, json['account']['id'].toString());
     await SpUtil.putString(Constant.SP_USER_NICK_NAME, json['profile']['nickname']);
     await SpUtil.putString(Constant.SP_USER_MD5_PASSWORD, encryptPassword);
+    await SpUtil.putString(Constant.SP_USER_COOKIE, json['cookie']);
   }
 }
