@@ -17,7 +17,7 @@ abstract class Colours {
 
   ///text
   static const Color app_main_text = Color(0xff1a1a1a);
-  static const Color app_main_text_hint = Color(0x88495c69);
+  static const Color app_main_text_hint = Color(0xffb0b0b0);
 
   ///unfixed state
   static const Color app_main_unselected = Color(0xff707070);

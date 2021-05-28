@@ -10,6 +10,7 @@ import 'package:flutter_netease/config/colours.dart';
 import 'package:flutter_netease/controller/main/discovery/discovery_page_controller.dart';
 import 'package:flutter_netease/model/discovery/block/banner/discovery_banner_bean.dart';
 import 'package:flutter_netease/model/discovery/block/block_bean.dart';
+import 'package:flutter_netease/model/discovery/block/creatives/resource_bean.dart';
 import 'package:flutter_netease/util/scroll_behavior.dart';
 import 'package:flutter_netease/widget/hide_keyboard.dart';
 import 'package:flutter_netease/widget/page_status.dart';
@@ -23,16 +24,17 @@ class DiscoveryPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var controller = Get.put(DiscoveryPageController());
+    double windowWidth = MediaQuery.of(context).size.width;
     return HideKeyboard(
         child: Scaffold(
       backgroundColor: Colors.transparent,
       body: Obx(() {
-        return _pageContent(controller);
+        return _pageContent(controller, windowWidth);
       }),
     ));
   }
 
-  Widget _pageContent(DiscoveryPageController controller) {
+  Widget _pageContent(DiscoveryPageController controller, double windowWidth) {
     int pageStatus = controller.pageStatus.value;
     if (pageStatus == 0) {
       return pageLoading();
@@ -43,11 +45,12 @@ class DiscoveryPage extends StatelessWidget {
             shrinkWrap: true,
             itemBuilder: (ctx, index) {
               if (index == 0) {
-                return _itemContent(controller.blocks.value![0], controller.blocks.value?[0].blockCode);
+                return _itemContent(controller.blocks.value![0], controller.blocks.value?[0].blockCode, windowWidth);
               } else if (index == 1) {
-                return _itemContent(null, 'DISCOVERY_OUT_SERVER');
+                return _itemContent(null, 'DISCOVERY_OUT_SERVER', windowWidth);
               } else {
-                return _itemContent(controller.blocks.value![index - 1], controller.blocks.value?[index - 1].blockCode);
+                return _itemContent(
+                    controller.blocks.value![index - 1], controller.blocks.value?[index - 1].blockCode, windowWidth);
               }
             },
             separatorBuilder: (ctx, index) => Container(height: 20, width: double.infinity),
@@ -59,7 +62,7 @@ class DiscoveryPage extends StatelessWidget {
   }
 
   ///以为中间加了banner下面的小部件，所以block可能为空，这时候showType也为空
-  Widget _itemContent(BlockBean? block, String? showType) {
+  Widget _itemContent(BlockBean? block, String? showType, double windowWidth) {
     Widget child;
     if (showType == 'HOMEPAGE_BANNER') {
       child = _bannerContent(block!);
@@ -70,7 +73,7 @@ class DiscoveryPage extends StatelessWidget {
       child = _itemRecommendSongList(block!);
     } else if (showType == 'HOMEPAGE_BLOCK_STYLE_RCMD') {
       ///二次元里的惊喜世界
-      child = _itemOfficialRecommendSongs(block!);
+      child = _itemOfficialRecommendSongs(block!, windowWidth);
     } else if (showType == 'HOMEPAGE_MUSIC_MLOG') {
       ///精选音乐视频
       child = Container();
@@ -311,7 +314,7 @@ class DiscoveryPage extends StatelessWidget {
   }
 
   ///推荐歌单下面的官方推荐的歌曲
-  Widget _itemOfficialRecommendSongs(BlockBean block) {
+  Widget _itemOfficialRecommendSongs(BlockBean block, double windowWidth) {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 10),
       decoration:
@@ -347,17 +350,101 @@ class DiscoveryPage extends StatelessWidget {
             ),
           ),
           PageView(
-            children: _getItemOfficialRecommendSongsPageViewItem(block),
+            children: _getItemOfficialRecommendPages(block, windowWidth),
           )
         ],
       ),
     );
   }
 
-  List<Widget> _getItemOfficialRecommendSongsPageViewItem(BlockBean block) {
-    // for(int i = 1;i<block.)
-    List<Widget> children = <Widget>[];
-    return children;
+  ///官方的推荐歌曲内容
+  List<Widget> _getItemOfficialRecommendPages(BlockBean block, double windowWidth) {
+    List<Widget> pages = [];
+    for (int i = 0; i < block.creatives!.length; i++) {
+      pages.add(Container(height: 121,child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: _getItemOfficialRecommendPageContent(block.creatives![i].resources!, i, windowWidth),
+      ),));
+    }
+    return pages;
+  }
+
+  ///官方的推荐歌曲pageview的内容
+  List<Widget> _getItemOfficialRecommendPageContent(List<ResourceBean> resources, int index, double windowWidth) {
+    return resources.map((e) {
+      String artists = e.resourceExtInfo!.artists![0].name!;
+      for (int i = 1; i < e.resourceExtInfo!.artists!.length; i++) {
+        artists = artists + '/' + e.resourceExtInfo!.artists![i].name!;
+      }
+      if (artists.endsWith('/')) {
+        artists = artists.substring(0, artists.length - 1);
+      }
+      return Container(
+        height: 35,
+        width: double.infinity,
+        alignment: Alignment.center,
+        padding: EdgeInsets.symmetric(horizontal: 15),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                SizedBox(
+                  width: 35,
+                  height: 35,
+                  child: Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
+                        child: Image.network(
+                          e.uiElement!.image!.imageUrl!,
+                          width: 30,
+                          fit: BoxFit.fitWidth,
+                        ),
+                      ),
+                      Opacity(
+                        opacity: 0.5,
+                        child: Image.asset(
+                          'assets/images/main_page/discovery/discovery_item_play.png',
+                          width: 35 / 4,
+                          fit: BoxFit.fitWidth,
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+                Container(
+                  alignment: Alignment.center,
+                  constraints: BoxConstraints(maxWidth: windowWidth - 30 - 35 - 30 - 13),
+                  margin: EdgeInsets.only(left: 10, right: 20),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text.rich(
+                        TextSpan(text: e.uiElement!.mainTitle!.title!, children: [
+                          TextSpan(
+                            text: ' - $artists',
+                            style: TextStyle(color: Colours.app_main_text_hint, fontSize: 11),
+                          )
+                        ]),
+                        style: TextStyle(color: Colours.app_main_text, fontSize: 13, fontWeight: FontWeight.w500),
+                      )
+                    ],
+                  ),
+                )
+              ],
+            ),
+            Image.asset(
+              'assets/images/main_page/discovery/discovery_item_video_play.png',
+              width: 13,
+              fit: BoxFit.fitWidth,
+            )
+          ],
+        ),
+      );
+    }).toList();
   }
 
   ///item主标题Title 样式
