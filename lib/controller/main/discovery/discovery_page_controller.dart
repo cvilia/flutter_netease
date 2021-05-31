@@ -8,22 +8,25 @@ import 'package:flutter_netease/model/discovery/block/block_bean.dart';
 import 'package:flutter_netease/model/discovery/discovery_bean.dart';
 import 'package:flutter_netease/util/sp_util.dart';
 import 'package:get/get.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 ///首页 发现模块controller
 class DiscoveryPageController extends GetxController {
-  var hasMore = true.obs;
+  bool hasMore = true;
   var blocks = Rxn<List<BlockBean>>();
-  var cursor = "".obs;
+  late String cursor;
 
   ///页面状态，0=刚进入 200=OK，其他=错误
   var pageStatus = 0.obs;
 
   var currentBlockItems = 0.obs;
+  late RefreshController refreshController;
 
   var globalKey = Rxn<GlobalKey>();
 
   static DiscoveryPageController get to => Get.find();
 
+  ///处理播放了多少次
   String abbreviatedNumber(String playCount) {
     if (playCount.length < 5) {
       return playCount;
@@ -81,21 +84,39 @@ class DiscoveryPageController extends GetxController {
   @override
   void onInit() async {
     super.onInit();
+
+    refreshController = RefreshController();
     globalKey.value = GlobalKey();
-    dioHelper.get(Api.GET_DISCOVERY_DATA, params: {'cookie': await SpUtil.getString(Constant.SP_USER_COOKIE)},
+    requestData(true);
+  }
+
+  Future<void> requestData(bool isRefresh) async {
+    if(!hasMore){
+      return;
+    }
+    dioHelper.get(Api.GET_DISCOVERY_DATA, params: {'cookie': await SpUtil.getString(Constant.SP_USER_COOKIE),cursor:cursor},
         callBack: (response) {
       var jsonMap = jsonDecode(response.data);
+      if (isRefresh) {
+        refreshController.refreshCompleted();
+      } else {
+        refreshController.loadComplete();
+      }
       if (jsonMap['code'] == 200) {
         DiscoveryBean discoveryBean = DiscoveryBean.fromJson(jsonMap);
-        hasMore.value = discoveryBean.data!.hasMore!;
+        hasMore = discoveryBean.data!.hasMore!;
         if (discoveryBean.data!.cursor != null) {
-          cursor.value = discoveryBean.data!.cursor!;
+          cursor = discoveryBean.data!.cursor!;
         }
-        blocks.value = discoveryBean.data!.blocks!;
-        currentBlockItems.value = blocks.value!.length;
+        List<BlockBean> result = discoveryBean.data!.blocks!;
+        if(isRefresh){
+          blocks.value = result;
+        }else{
+          blocks.value!.addAll(result);
+        }
         pageStatus.value = 200;
       } else {
-        pageStatus.value = -1;
+        if (blocks.value == null) pageStatus.value = -1;
       }
     });
   }

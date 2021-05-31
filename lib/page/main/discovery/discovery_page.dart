@@ -15,6 +15,7 @@ import 'package:flutter_netease/util/scroll_behavior.dart';
 import 'package:flutter_netease/widget/hide_keyboard.dart';
 import 'package:flutter_netease/widget/page_status.dart';
 import 'package:get/get.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 ///首页 发现模块
 ///打开抽屉的时，如果不用builder，onPress中传入的context可能会导致打不开抽屉
@@ -26,12 +27,13 @@ class DiscoveryPage extends StatelessWidget {
     var controller = Get.put(DiscoveryPageController());
     double windowWidth = MediaQuery.of(context).size.width;
     return HideKeyboard(
-        child: Scaffold(
-      backgroundColor: Colors.transparent,
-      body: Obx(() {
-        return _pageContent(controller, windowWidth);
-      }),
-    ));
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        body: Obx(
+          () => _pageContent(controller, windowWidth),
+        ),
+      ),
+    );
   }
 
   Widget _pageContent(DiscoveryPageController controller, double windowWidth) {
@@ -41,20 +43,26 @@ class DiscoveryPage extends StatelessWidget {
     } else if (pageStatus == 200) {
       return ScrollConfiguration(
         behavior: MyBehavior(),
-        child: ListView.separated(
-            shrinkWrap: true,
-            itemBuilder: (ctx, index) {
-              if (index == 0) {
-                return _itemContent(controller.blocks.value![0], controller.blocks.value?[0].blockCode, windowWidth);
-              } else if (index == 1) {
-                return _itemContent(null, 'DISCOVERY_OUT_SERVER', windowWidth);
-              } else {
-                return _itemContent(
-                    controller.blocks.value![index - 1], controller.blocks.value?[index - 1].blockCode, windowWidth);
-              }
-            },
-            separatorBuilder: (ctx, index) => Container(height: 20, width: double.infinity),
-            itemCount: controller.blocks.value!.length + 1),
+        child: SmartRefresher(
+          controller: controller.refreshController,
+          enablePullUp: true,
+          onRefresh: ()=>controller.requestData(true),
+          onLoading: ()=>controller.requestData(false),
+          child: ListView.separated(
+              shrinkWrap: true,
+              itemBuilder: (ctx, index) {
+                if (index == 0) {
+                  return _itemContent(controller.blocks.value![0], controller.blocks.value?[0].blockCode, windowWidth);
+                } else if (index == 1) {
+                  return _itemContent(null, 'DISCOVERY_OUT_SERVER', windowWidth);
+                } else {
+                  return _itemContent(
+                      controller.blocks.value![index - 1], controller.blocks.value?[index - 1].blockCode, windowWidth);
+                }
+              },
+              separatorBuilder: (ctx, index) => Container(height: 20, width: double.infinity),
+              itemCount: controller.blocks.value!.length + 1),
+        ),
       );
     } else {
       return pageError();
@@ -76,7 +84,8 @@ class DiscoveryPage extends StatelessWidget {
       child = _itemOfficialRecommendSongs(block!, windowWidth);
     } else if (showType == 'HOMEPAGE_MUSIC_MLOG') {
       ///精选音乐视频
-      child = Container();
+      child = _itemChoicenessMusicVideo(block!, windowWidth);
+      // child = Container();
     } else if (showType == 'HOMEPAGE_BLOCK_MGC_PLAYLIST') {
       ///麻辣炖土豆儿的雷达歌单
       child = Container();
@@ -267,9 +276,9 @@ class DiscoveryPage extends StatelessWidget {
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (ctx, index) {
                   return Container(
-                    width: index == 0 || index == (block.creatives!.length - 1) ? 110 : 100,
+                    width: 100,
                     height: 130,
-                    padding: EdgeInsets.only(
+                    margin: EdgeInsets.only(
                         left: index == 0 ? 15 : 5, right: index == (block.creatives!.length - 1) ? 15 : 5),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -457,6 +466,85 @@ class DiscoveryPage extends StatelessWidget {
         ),
       );
     }).toList();
+  }
+
+  ///精选音乐视频
+  Widget _itemChoicenessMusicVideo(BlockBean block, double windowWidth) {
+    return Container(
+      padding: EdgeInsets.symmetric(vertical: 10),
+      decoration:
+          ShapeDecoration(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)), color: Colors.white),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+            width: double.infinity,
+            alignment: Alignment.centerLeft,
+            padding: EdgeInsets.symmetric(horizontal: 15),
+            margin: EdgeInsets.only(bottom: 10),
+            child: _itemSubTitle(block.uiElement!.subTitle!.title!),
+          ),
+          SizedBox(
+            height: 180,
+            child: ListView.separated(
+                scrollDirection: Axis.horizontal,
+                itemBuilder: (ctx, index) {
+                  return Container(
+                    width: 100,
+                    height: 180,
+                    margin:
+                        EdgeInsets.only(left: index == 0 ? 15 : 0, right: index == block.extInfos!.length - 1 ? 15 : 0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        SizedBox(
+                          width: 100,
+                          height: 150,
+                          child: Stack(
+                            children: [
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(10),
+                                child: Image.network(block.extInfos![index].resource!.mlogBaseData!.coverUrl!,
+                                    width: 100, height: 150, fit: BoxFit.cover),
+                              ),
+                              Positioned(
+                                child: _itemPlayCountStyle(DiscoveryPageController.to.abbreviatedNumber(
+                                    block.extInfos![index].resource!.mlogExtVO!.playCount!.toString())),
+                                top: 2,
+                                right: 2,
+                              ),
+                              Positioned(
+                                child: CircleAvatar(
+                                  radius: 12.5,
+                                  backgroundColor: Colors.white.withOpacity(0.3),
+                                  child: Image.asset(
+                                    'assets/images/main_page/discovery/discovery_item_play.png',
+                                    width: 15,
+                                    fit: BoxFit.fitWidth,
+                                  ),
+                                ),
+                                bottom: 2,
+                                right: 2,
+                              )
+                            ],
+                          ),
+                        ),
+                        Text(
+                          block.extInfos![index].resource!.mlogBaseData!.text!,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(color: Colours.app_main_text, fontSize: 10, fontWeight: FontWeight.w500),
+                        )
+                      ],
+                    ),
+                  );
+                },
+                separatorBuilder: (ctx, index) => Container(width: 10),
+                itemCount: block.extInfos!.length),
+          )
+        ],
+      ),
+    );
   }
 
   ///item主标题Title 样式

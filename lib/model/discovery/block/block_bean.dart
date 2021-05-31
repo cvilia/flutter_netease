@@ -30,9 +30,9 @@ class BlockBean {
     if (showType == "BANNER" || showType == "HOMEPAGE_SLIDE_FUN_CLUB") {
       extInfo = json["extInfo"] == null ? null : BlockExtInfoBean.fromJson(json["extInfo"]);
     } else {
-      if (json["extInfos"] != null) {
+      if (json["extInfo"] != null) {
         extInfos = [];
-        json["extInfos"].forEach((v) => extInfos?.add(BlockExtInfoBean.fromJson(v)));
+        json["extInfo"].forEach((v) => extInfos?.add(BlockExtInfoBean.fromJson(v)));
       }
     }
   }
