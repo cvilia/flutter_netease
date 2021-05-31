@@ -14,7 +14,7 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 class DiscoveryPageController extends GetxController {
   bool hasMore = true;
   var blocks = Rxn<List<BlockBean>>();
-  late String cursor;
+   String cursor = '';
 
   ///页面状态，0=刚进入 200=OK，其他=错误
   var pageStatus = 0.obs;
@@ -84,7 +84,6 @@ class DiscoveryPageController extends GetxController {
   @override
   void onInit() async {
     super.onInit();
-
     refreshController = RefreshController();
     globalKey.value = GlobalKey();
     requestData(true);
@@ -96,12 +95,12 @@ class DiscoveryPageController extends GetxController {
     }
     dioHelper.get(Api.GET_DISCOVERY_DATA, params: {'cookie': await SpUtil.getString(Constant.SP_USER_COOKIE),cursor:cursor},
         callBack: (response) {
+          if (isRefresh) {
+            refreshController.refreshCompleted();
+          } else {
+            refreshController.loadComplete();
+          }
       var jsonMap = jsonDecode(response.data);
-      if (isRefresh) {
-        refreshController.refreshCompleted();
-      } else {
-        refreshController.loadComplete();
-      }
       if (jsonMap['code'] == 200) {
         DiscoveryBean discoveryBean = DiscoveryBean.fromJson(jsonMap);
         hasMore = discoveryBean.data!.hasMore!;
