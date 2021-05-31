@@ -349,8 +349,11 @@ class DiscoveryPage extends StatelessWidget {
               ],
             ),
           ),
-          PageView(
-            children: _getItemOfficialRecommendPages(block, windowWidth),
+          SizedBox(
+            height: 166,
+            child: PageView(
+              children: _getItemOfficialRecommendPages(block, windowWidth),
+            ),
           )
         ],
       ),
@@ -361,16 +364,18 @@ class DiscoveryPage extends StatelessWidget {
   List<Widget> _getItemOfficialRecommendPages(BlockBean block, double windowWidth) {
     List<Widget> pages = [];
     for (int i = 0; i < block.creatives!.length; i++) {
-      pages.add(Container(height: 121,child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: _getItemOfficialRecommendPageContent(block.creatives![i].resources!, i, windowWidth),
-      ),));
+      pages.add(
+        Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: _getItemOfficialRecommendPageContent(block.creatives![i].resources!, windowWidth),
+        ),
+      );
     }
     return pages;
   }
 
   ///官方的推荐歌曲pageview的内容
-  List<Widget> _getItemOfficialRecommendPageContent(List<ResourceBean> resources, int index, double windowWidth) {
+  List<Widget> _getItemOfficialRecommendPageContent(List<ResourceBean> resources, double windowWidth) {
     return resources.map((e) {
       String artists = e.resourceExtInfo!.artists![0].name!;
       for (int i = 1; i < e.resourceExtInfo!.artists!.length; i++) {
@@ -380,7 +385,7 @@ class DiscoveryPage extends StatelessWidget {
         artists = artists.substring(0, artists.length - 1);
       }
       return Container(
-        height: 35,
+        height: 50,
         width: double.infinity,
         alignment: Alignment.center,
         padding: EdgeInsets.symmetric(horizontal: 15),
@@ -389,10 +394,11 @@ class DiscoveryPage extends StatelessWidget {
           children: [
             Row(
               mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 SizedBox(
-                  width: 35,
-                  height: 35,
+                  width: 50,
+                  height: 50,
                   child: Stack(
                     alignment: Alignment.center,
                     children: [
@@ -400,27 +406,25 @@ class DiscoveryPage extends StatelessWidget {
                         borderRadius: BorderRadius.circular(10),
                         child: Image.network(
                           e.uiElement!.image!.imageUrl!,
-                          width: 30,
+                          width: 50,
                           fit: BoxFit.fitWidth,
                         ),
                       ),
-                      Opacity(
-                        opacity: 0.5,
-                        child: Image.asset(
-                          'assets/images/main_page/discovery/discovery_item_play.png',
-                          width: 35 / 4,
-                          fit: BoxFit.fitWidth,
-                        ),
+                      Image.asset(
+                        'assets/images/main_page/discovery/discovery_item_play.png',
+                        width: 20,
+                        fit: BoxFit.fitWidth,
                       )
                     ],
                   ),
                 ),
                 Container(
-                  alignment: Alignment.center,
-                  constraints: BoxConstraints(maxWidth: windowWidth - 30 - 35 - 30 - 13),
+                  alignment: Alignment.centerLeft,
+                  constraints: BoxConstraints(maxWidth: windowWidth - 130),
                   margin: EdgeInsets.only(left: 10, right: 20),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text.rich(
                         TextSpan(text: e.uiElement!.mainTitle!.title!, children: [
@@ -429,17 +433,25 @@ class DiscoveryPage extends StatelessWidget {
                             style: TextStyle(color: Colours.app_main_text_hint, fontSize: 11),
                           )
                         ]),
-                        style: TextStyle(color: Colours.app_main_text, fontSize: 13, fontWeight: FontWeight.w500),
-                      )
+                        style: TextStyle(color: Colours.app_main_text, fontSize: 15, fontWeight: FontWeight.w500),
+                      ),
+                      if (e.uiElement!.subTitle != null && e.uiElement!.subTitle!.title != null)
+                        Text(
+                          e.uiElement!.subTitle!.title!,
+                          style: TextStyle(color: Colours.app_main_text_hint, fontSize: 11),
+                        ),
                     ],
                   ),
                 )
               ],
             ),
-            Image.asset(
-              'assets/images/main_page/discovery/discovery_item_video_play.png',
-              width: 13,
-              fit: BoxFit.fitWidth,
+            Visibility(
+              child: Image.asset(
+                'assets/images/main_page/discovery/discovery_item_video_play.png',
+                width: 20,
+                fit: BoxFit.fitWidth,
+              ),
+              visible: true,
             )
           ],
         ),
