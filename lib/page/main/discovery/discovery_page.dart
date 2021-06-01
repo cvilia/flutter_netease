@@ -46,8 +46,8 @@ class DiscoveryPage extends StatelessWidget {
         child: SmartRefresher(
           controller: controller.refreshController,
           enablePullUp: true,
-          onRefresh: ()=>controller.requestData(true),
-          onLoading: ()=>controller.requestData(false),
+          onRefresh: () => controller.requestData(true),
+          onLoading: () => controller.requestData(false),
           child: ListView.separated(
               shrinkWrap: true,
               itemBuilder: (ctx, index) {
@@ -283,16 +283,32 @@ class DiscoveryPage extends StatelessWidget {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        SizedBox(
+                        Container(
                           height: 100,
                           width: 100,
+                          alignment: Alignment.center,
+                          color: Colours.app_main_background,
                           child: Stack(
                             children: [
                               ClipRRect(
                                 borderRadius: BorderRadius.circular(10),
-                                child: Image.network(
-                                  block.creatives![index].uiElement!.image!.imageUrl!,
+                                child: CachedNetworkImage(
+                                  imageUrl: block.creatives![index].uiElement!.image!.imageUrl!,
                                   width: 100,
+                                  placeholder: (_, __) => SizedBox(
+                                    height: 40,
+                                    child: Image.asset(
+                                      'assets/images/default_pic.png',
+                                      fit: BoxFit.fitHeight,
+                                    ),
+                                  ),
+                                  errorWidget: (_, __, ___) => SizedBox(
+                                    height: 40,
+                                    child: Image.asset(
+                                      'assets/images/default_pic.png',
+                                      fit: BoxFit.fitHeight,
+                                    ),
+                                  ),
                                   fit: BoxFit.cover,
                                 ),
                               ),
@@ -412,13 +428,26 @@ class DiscoveryPage extends StatelessWidget {
                     alignment: Alignment.center,
                     children: [
                       ClipRRect(
-                        borderRadius: BorderRadius.circular(10),
-                        child: Image.network(
-                          e.uiElement!.image!.imageUrl!,
-                          width: 50,
-                          fit: BoxFit.fitWidth,
-                        ),
-                      ),
+                          borderRadius: BorderRadius.circular(10),
+                          child: CachedNetworkImage(
+                            imageUrl: e.uiElement!.image!.imageUrl!,
+                            width: 50,
+                            placeholder: (_, __) => SizedBox(
+                              height: 20,
+                              child: Image.asset(
+                                'assets/images/default_pic.png',
+                                fit: BoxFit.fitHeight,
+                              ),
+                            ),
+                            errorWidget: (_, __, ___) => SizedBox(
+                              height: 20,
+                              child: Image.asset(
+                                'assets/images/default_pic.png',
+                                fit: BoxFit.fitHeight,
+                              ),
+                            ),
+                            fit: BoxFit.cover,
+                          )),
                       Image.asset(
                         'assets/images/main_page/discovery/discovery_item_play.png',
                         width: 20,
@@ -497,16 +526,34 @@ class DiscoveryPage extends StatelessWidget {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        SizedBox(
+                        Container(
+                          alignment: Alignment.center,
                           width: 100,
                           height: 150,
                           child: Stack(
                             children: [
                               ClipRRect(
-                                borderRadius: BorderRadius.circular(10),
-                                child: Image.network(block.extInfos![index].resource!.mlogBaseData!.coverUrl!,
-                                    width: 100, height: 150, fit: BoxFit.cover),
-                              ),
+                                  borderRadius: BorderRadius.circular(10),
+                                  child: CachedNetworkImage(
+                                    imageUrl: block.extInfos![index].resource!.mlogBaseData!.coverUrl!,
+                                    width: 100,
+                                    height: 150,
+                                    placeholder: (_, __) => SizedBox(
+                                      width: 40,
+                                      child: Image.asset(
+                                        'assets/images/default_pic.png',
+                                        fit: BoxFit.fitWidth,
+                                      ),
+                                    ),
+                                    errorWidget: (_, __, ___) => SizedBox(
+                                      width: 40,
+                                      child: Image.asset(
+                                        'assets/images/default_pic.png',
+                                        fit: BoxFit.fitWidth,
+                                      ),
+                                    ),
+                                    fit: BoxFit.cover,
+                                  )),
                               Positioned(
                                 child: _itemPlayCountStyle(DiscoveryPageController.to.abbreviatedNumber(
                                     block.extInfos![index].resource!.mlogExtVO!.playCount!.toString())),

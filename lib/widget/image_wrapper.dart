@@ -5,8 +5,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_netease/config/colours.dart';
 
-import 'common_utils.dart';
-
 class ImageWrapper extends StatelessWidget {
   final String url;
   final double? width;
@@ -17,21 +15,21 @@ class ImageWrapper extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return url.contains('http')
-        ? CachedNetworkImage(
-            imageUrl: url,
-            width: width,
-            height: height,
-            placeholder: (_, __) => SizedBox(
-                  width: width,
-                  child: CupertinoActivityIndicator(radius: min(10.0, width! / 3)),
-                ),
-            errorWidget: (_, __, ___) => Container(
-                  width: width,
-                  color: Colours.app_main,
-                  child: Icon(Icons.error_outline, size: width! / 3),
-                ),
-            fit: fit)
-        : Image.asset(url, width: width, fit: fit);
+    return CachedNetworkImage(
+      imageUrl: url,
+      width: width,
+      height: height,
+      placeholder: (_, __) => Image.asset(
+        'assets/images/main_page/main_navigation_item_discovery.png',
+        width: width,
+        fit: fit,
+      ),
+      errorWidget: (_, __, ___) => Image.asset(
+        'assets/images/main_page/main_navigation_item_discovery.png',
+        width: width,
+        fit: fit,
+      ),
+      fit: fit,
+    );
   }
 }
