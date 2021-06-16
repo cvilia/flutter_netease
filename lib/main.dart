@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_netease/config/colours.dart';
 import 'package:flutter_netease/route/app_pages.dart';
 import 'package:get/get.dart';
 
@@ -16,6 +15,7 @@ void main() {
       getPages: AppPages.routes,
       theme: ThemeData(
         splashColor: Color.fromRGBO(0, 0, 0, 0),
+        platform: TargetPlatform.iOS
       ),
     ),
   );
@@ -23,13 +23,9 @@ void main() {
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
 
     ///隐藏手机底部的导航条
-    // SystemChrome.setEnabledSystemUIOverlays([SystemUiOverlay.top]);
-    SystemUiOverlayStyle dark = SystemUiOverlayStyle(
-        systemNavigationBarColor: Colours.app_main_background,
-        systemNavigationBarDividerColor: null,
-        statusBarColor: Colors.transparent,
-        statusBarBrightness: Brightness.dark,
-        statusBarIconBrightness: Brightness.dark);
+    SystemChrome.setEnabledSystemUIOverlays([SystemUiOverlay.top]);
+    SystemUiOverlayStyle dark =
+        SystemUiOverlayStyle(statusBarColor: Colors.transparent, statusBarIconBrightness: Brightness.dark);
     SystemChrome.setSystemUIOverlayStyle(dark);
   }
 }
