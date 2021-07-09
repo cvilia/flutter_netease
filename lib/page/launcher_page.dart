@@ -7,7 +7,6 @@ import 'package:get/get.dart';
 class LauncherPage extends GetView<LauncherController> {
   @override
   Widget build(BuildContext context) {
-    LauncherController controller = Get.put(LauncherController());
     return AppBackground(
       child: Scaffold(
         backgroundColor: Colors.transparent,

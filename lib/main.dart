@@ -11,7 +11,6 @@ void main() {
     GetMaterialApp(
       debugShowCheckedModeBanner: false,
       initialRoute: AppPages.INITIAL,
-      defaultTransition: Transition.fade,
       getPages: AppPages.routes,
       theme: ThemeData(
         splashColor: Color.fromRGBO(0, 0, 0, 0),

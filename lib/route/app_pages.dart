@@ -7,15 +7,14 @@ class AppPages {
   static const String INITIAL = Routes.LAUNCHER;
 
   static List<GetPage> routes = [
-    GetPage(name: INITIAL, page: ()=>LauncherPage()),
-    GetPage(name: Routes.MAIN, page: ()=>MainPage()),
-    GetPage(name: Routes.LOGIN, page: ()=>LoginPage()),
+    GetPage(name: Routes.LAUNCHER, page: () => LauncherPage()),
+    GetPage(name: Routes.MAIN, page: () => MainPage()),
+    GetPage(name: Routes.LOGIN, page: () => LoginPage()),
   ];
 }
 
 abstract class Routes {
   static const String LAUNCHER = '/launcher';
-  static const String MAIN = '-main';
-  static const String LOGIN = '-login';
-  static const String PLAY_PAGE = '-playpage';
+  static const String MAIN = '/main';
+  static const String LOGIN = '/login';
 }
