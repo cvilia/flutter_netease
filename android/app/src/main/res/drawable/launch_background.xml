@@ -1,9 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?><!-- Modify this file to customize your launch splash screen -->
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <gradient
-        android:angle="-45"
-        android:startColor="#f83838"
-        android:endColor="#fff88888" />
+    <solid android:color="#D82818" />
 </shape>
 
