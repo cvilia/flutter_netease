@@ -15,7 +15,7 @@ import io.flutter.plugin.common.MethodChannel
 class LogBridgeManager {
 
     companion object {
-        private const val logChannelName: String = "com.cvilia.flutter.log/log"
+        private const val logChannelName: String = "com.cvilia.bubblemusic.log/log"
 
         @JvmStatic
         fun init(flutterEngine: FlutterEngine) {

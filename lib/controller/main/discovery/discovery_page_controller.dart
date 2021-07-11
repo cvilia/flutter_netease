@@ -1,7 +1,10 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_netease/base/base_get_controller.dart';
+import 'package:flutter_netease/bridge/mmkv.dart';
 import 'package:flutter_netease/config/constant.dart';
+import 'package:flutter_netease/config/page_status.dart';
 import 'package:flutter_netease/http/api.dart';
 import 'package:flutter_netease/http/dio_helper.dart';
 import 'package:flutter_netease/model/discovery/block/block_bean.dart';
@@ -11,13 +14,11 @@ import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 ///首页 发现模块controller
-class DiscoveryPageController extends GetxController {
-  bool hasMore = true;
-  var blocks = Rxn<List<BlockBean>>();
-   String cursor = '';
-
-  ///页面状态，0=刚进入 200=OK，其他=错误
-  var pageStatus = 0.obs;
+class DiscoveryPageController extends BaseGetController {
+  bool? hasMore;
+  var blocks = RxList<BlockBean>();
+  String? cursor;
+  var pageStatus = PageStatus.LOADING.obs;
 
   var currentBlockItems = 0.obs;
   late RefreshController refreshController;
@@ -86,37 +87,54 @@ class DiscoveryPageController extends GetxController {
     super.onInit();
     refreshController = RefreshController();
     globalKey.value = GlobalKey();
-    requestData(true);
   }
 
-  Future<void> requestData(bool isRefresh) async {
-    if(!hasMore){
-      return;
-    }
-    dioHelper.get(Api.GET_DISCOVERY_DATA, params: {'cookie': await SpUtil.getString(Constant.SP_USER_COOKIE),cursor:cursor},
-        callBack: (response) {
-          if (isRefresh) {
-            refreshController.refreshCompleted();
+  Future<void> refreshData() async {
+    dioHelper.get(
+      Api.GET_DISCOVERY_DATA,
+      params: {'cookie': await MMKV.getString(Constant.SP_USER_COOKIE), cursor: cursor},
+      callBack: (response) {
+        if (refreshController.isRefresh) refreshController.refreshCompleted();
+        var jsonMap = jsonDecode(response.data);
+        if (jsonMap['code'] == 200) {
+          DiscoveryBean discoveryBean = DiscoveryBean.fromJson(jsonMap);
+          if (discoveryBean.data != null && discoveryBean.data!.blocks != null) {
+            cursor = discoveryBean.data!.cursor!;
+            hasMore = discoveryBean.data!.hasMore;
+            blocks.value = discoveryBean.data!.blocks!;
+            pageStatus.value = PageStatus.OK;
           } else {
-            refreshController.loadComplete();
+            pageStatus.value = PageStatus.EMPTY;
           }
-      var jsonMap = jsonDecode(response.data);
-      if (jsonMap['code'] == 200) {
-        DiscoveryBean discoveryBean = DiscoveryBean.fromJson(jsonMap);
-        hasMore = discoveryBean.data!.hasMore!;
-        if (discoveryBean.data!.cursor != null) {
-          cursor = discoveryBean.data!.cursor!;
+        } else {
+          pageStatus.value = PageStatus.NETWORK_ERROR;
         }
-        List<BlockBean> result = discoveryBean.data!.blocks!;
-        if(isRefresh){
-          blocks.value = result;
-        }else{
-          blocks.value!.addAll(result);
+      },
+    );
+  }
+
+  Future<void> loadData() async {
+    if (hasMore != null && !hasMore!) return;
+    dioHelper.get(
+      Api.GET_DISCOVERY_DATA,
+      params: {'cookie': await MMKV.getString(Constant.SP_USER_COOKIE), cursor: cursor},
+      callBack: (response) {
+        if (refreshController.isLoading) refreshController.loadComplete();
+        var jsonMap = jsonDecode(response.data);
+        if (jsonMap['code'] == 200) {
+          DiscoveryBean discoveryBean = DiscoveryBean.fromJson(jsonMap);
+          if (discoveryBean.data != null && discoveryBean.data!.blocks != null) {
+            cursor = discoveryBean.data!.cursor!;
+            hasMore = discoveryBean.data!.hasMore!;
+            blocks.addAllIf(discoveryBean.data!.blocks!.length > 0, discoveryBean.data!.blocks!);
+            pageStatus.value = PageStatus.OK;
+          } else {
+            pageStatus.value = PageStatus.EMPTY;
+          }
+        } else {
+          pageStatus.value = PageStatus.NETWORK_ERROR;
         }
-        pageStatus.value = 200;
-      } else {
-        if (blocks.value == null) pageStatus.value = -1;
-      }
-    });
+      },
+    );
   }
 }

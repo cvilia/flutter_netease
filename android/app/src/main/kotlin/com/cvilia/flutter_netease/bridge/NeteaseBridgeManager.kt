@@ -1,6 +1,7 @@
 package com.cvilia.flutter_netease.bridge
 
 import com.cvilia.flutter_netease.bridge.log.LogBridgeManager
+import com.cvilia.flutter_netease.bridge.mmkv.MMKVBridgeManager
 import com.cvilia.flutter_netease.bridge.net.NetStatusBridgeManager
 import io.flutter.embedding.engine.FlutterEngine
 
@@ -18,6 +19,8 @@ class NeteaseBridgeManager {
         fun init(flutterEngine: FlutterEngine) {
             LogBridgeManager.init(flutterEngine)
             NetStatusBridgeManager.init(flutterEngine)
+            MMKVBridgeManager.init(flutterEngine)
+            ToastBridgeManager.init(flutterEngine)
         }
     }
 
