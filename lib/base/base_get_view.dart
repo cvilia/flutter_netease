@@ -7,7 +7,7 @@ import 'base_get_controller.dart';
 abstract class BaseGetView<T extends BaseGetController> extends GetView<T> {
   @override
   Widget build(BuildContext context) {
-    return buildContent();
+    return WillPopScope(child: buildContent(), onWillPop: onWillPop);
   }
 
   Widget buildContent();
@@ -49,8 +49,9 @@ abstract class BaseGetView<T extends BaseGetController> extends GetView<T> {
     if (Get.isDialogOpen != null && Get.isDialogOpen!) Get.back();
   }
 
-  void preventQuickCLick(){
+  void preventQuickCLick() {}
 
+  Future<bool> onWillPop() async {
+    return true;
   }
-
 }
