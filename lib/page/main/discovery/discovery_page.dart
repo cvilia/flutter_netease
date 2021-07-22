@@ -93,7 +93,6 @@ class DiscoveryPage extends BaseStatelessWidget<DiscoveryPageController> {
     } else if (showType == 'HOMEPAGE_MUSIC_MLOG') {
       ///精选音乐视频
       child = _itemChoicenessMusicVideo(block!);
-      // child = Container();
     } else if (showType == 'HOMEPAGE_BLOCK_MGC_PLAYLIST') {
       ///麻辣炖土豆儿的雷达歌单
       child = Container();
@@ -136,7 +135,6 @@ class DiscoveryPage extends BaseStatelessWidget<DiscoveryPageController> {
   ///顶部banner
   Widget _bannerContent(BlockBean block) {
     List<DiscoveryBannerBean> banners = block.extInfo!.banners!;
-
     return Container(
       height: 140,
       child: Swiper(
@@ -183,7 +181,7 @@ class DiscoveryPage extends BaseStatelessWidget<DiscoveryPageController> {
   ///banner 下面横向滑动的小部件
   Widget _itemFunctionWidgets() {
     return Container(
-      height: 75,
+      height: 80,
       child: ListView(
         key: DiscoveryPageController.to.globalKey.value,
         scrollDirection: Axis.horizontal,
@@ -245,12 +243,10 @@ class DiscoveryPage extends BaseStatelessWidget<DiscoveryPageController> {
   Widget _itemRecommendSongList(BlockBean block) {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 10),
-      decoration:
-          ShapeDecoration(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)), color: Colors.white),
+      decoration: BoxDecoration(borderRadius: BorderRadius.circular(15), color: Colors.red),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          // Container(height: 0.5, color: Colours.app_main_divider),
           Container(
             width: double.infinity,
             alignment: Alignment.center,
@@ -281,77 +277,62 @@ class DiscoveryPage extends BaseStatelessWidget<DiscoveryPageController> {
           Container(
             height: 130,
             child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemBuilder: (ctx, index) {
-                  return Container(
-                    width: 100,
-                    height: 130,
-                    margin: EdgeInsets.only(
-                        left: index == 0 ? 15 : 5, right: index == (block.creatives!.length - 1) ? 15 : 5),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Container(
-                          height: 100,
-                          width: 100,
-                          alignment: Alignment.center,
-                          color: Colours.app_main_background,
-                          child: Stack(
-                            children: [
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(10),
-                                child: CachedNetworkImage(
-                                  imageUrl: block.creatives![index].uiElement!.image!.imageUrl!,
-                                  width: 100,
-                                  placeholder: (_, __) => SizedBox(
-                                    height: 40,
-                                    child: Image.asset(
-                                      'assets/images/default_pic.png',
-                                      fit: BoxFit.fitHeight,
-                                    ),
-                                  ),
-                                  errorWidget: (_, __, ___) => SizedBox(
-                                    height: 40,
-                                    child: Image.asset(
-                                      'assets/images/default_pic.png',
-                                      fit: BoxFit.fitHeight,
-                                    ),
-                                  ),
-                                  fit: BoxFit.cover,
-                                ),
+              scrollDirection: Axis.horizontal,
+              itemBuilder: (ctx, index) {
+                return Container(
+                  width: 100,
+                  margin: EdgeInsets.only(
+                      left: index == 0 ? 15 : 5, right: index == (block.creatives!.length - 1) ? 15 : 5),
+                  child: Column(
+                    children: [
+                      Container(
+                        width: 100,
+                        alignment: Alignment.center,
+                        child: Stack(
+                          children: [
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(10),
+                              child: CachedNetworkImage(
+                                imageUrl: block.creatives![index].uiElement!.image!.imageUrl!,
+                                height: 100,
+                                placeholder: (_, __) => Image.asset('assets/images/default_pic.png'),
+                                errorWidget: (_, __, ___) => Image.asset('assets/images/default_pic.png'),
+                                fit: BoxFit.fitHeight,
                               ),
-                              Positioned(
-                                child: _itemPlayCountStyle(DiscoveryPageController.to.abbreviatedNumber(
-                                    block.creatives![index].resources![0].resourceExtInfo!.playCount!)),
-                                top: 2,
-                                right: 2,
-                              )
-                            ],
-                          ),
+                            ),
+                            Positioned(
+                              child: _itemPlayCountStyle(DiscoveryPageController.to.abbreviatedNumber(
+                                  block.creatives![index].resources![0].resourceExtInfo!.playCount!)),
+                              top: 2,
+                              right: 2,
+                            )
+                          ],
                         ),
-                        Text(
-                          block.creatives![index].uiElement!.mainTitle!.title!,
-                          maxLines: 2,
-                          softWrap: true,
-                          style: TextStyle(color: Colours.app_main_text, fontSize: 10, fontWeight: FontWeight.w500),
-                        )
-                      ],
-                    ),
-                  );
-                },
-                itemCount: block.creatives!.length),
+                      ),
+                      Text(
+                        block.creatives![index].uiElement!.mainTitle!.title!,
+                        maxLines: 2,
+                        softWrap: true,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(color: Colours.app_main_text, fontSize: 10),
+                      )
+                    ],
+                  ),
+                );
+              },
+              itemCount: block.creatives!.length,
+            ),
           )
         ],
       ),
     );
   }
 
-  ///推荐歌单下面的官方推荐的歌曲
+  ///二次元里的惊喜世界
   Widget _itemOfficialRecommendSongs(BlockBean block) {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 10),
-      decoration:
-          ShapeDecoration(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)), color: Colors.white),
+      decoration: BoxDecoration(borderRadius: BorderRadius.circular(15), color: Colors.red),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -368,13 +349,10 @@ class DiscoveryPage extends BaseStatelessWidget<DiscoveryPageController> {
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    SizedBox(
+                    Image.asset(
+                      'assets/images/main_page/discovery/discovery_item_title_button_play.png',
                       width: 8,
-                      child: Image.asset(
-                        'assets/images/main_page/discovery/discovery_item_title_button_play.png',
-                        width: 8,
-                        fit: BoxFit.cover,
-                      ),
+                      fit: BoxFit.cover,
                     ),
                     _itemButtonText(block.uiElement!.button!.text!),
                   ],
@@ -384,27 +362,16 @@ class DiscoveryPage extends BaseStatelessWidget<DiscoveryPageController> {
           ),
           SizedBox(
             height: 166,
-            child: PageView(
-              children: _getItemOfficialRecommendPages(block),
+            child: PageView.builder(
+              itemBuilder: (BuildContext context, int index) => Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: _getItemOfficialRecommendPageContent(block.creatives![index].resources!),
+              ),
             ),
           )
         ],
       ),
     );
-  }
-
-  ///官方的推荐歌曲内容
-  List<Widget> _getItemOfficialRecommendPages(BlockBean block) {
-    List<Widget> pages = [];
-    for (int i = 0; i < block.creatives!.length; i++) {
-      pages.add(
-        Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: _getItemOfficialRecommendPageContent(block.creatives![i].resources!),
-        ),
-      );
-    }
-    return pages;
   }
 
   ///官方的推荐歌曲pageview的内容
@@ -510,8 +477,7 @@ class DiscoveryPage extends BaseStatelessWidget<DiscoveryPageController> {
   Widget _itemChoicenessMusicVideo(BlockBean block) {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 10),
-      decoration:
-          ShapeDecoration(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)), color: Colors.white),
+      decoration: BoxDecoration(borderRadius: BorderRadius.circular(15), color: Colors.white),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -533,7 +499,6 @@ class DiscoveryPage extends BaseStatelessWidget<DiscoveryPageController> {
                     margin:
                         EdgeInsets.only(left: index == 0 ? 15 : 0, right: index == block.extInfos!.length - 1 ? 15 : 0),
                     child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Container(
                           alignment: Alignment.center,
@@ -542,27 +507,16 @@ class DiscoveryPage extends BaseStatelessWidget<DiscoveryPageController> {
                           child: Stack(
                             children: [
                               ClipRRect(
-                                  borderRadius: BorderRadius.circular(10),
-                                  child: CachedNetworkImage(
-                                    imageUrl: block.extInfos![index].resource!.mlogBaseData!.coverUrl!,
-                                    width: 100,
-                                    height: 150,
-                                    placeholder: (_, __) => SizedBox(
-                                      width: 40,
-                                      child: Image.asset(
-                                        'assets/images/default_pic.png',
-                                        fit: BoxFit.fitWidth,
-                                      ),
-                                    ),
-                                    errorWidget: (_, __, ___) => SizedBox(
-                                      width: 40,
-                                      child: Image.asset(
-                                        'assets/images/default_pic.png',
-                                        fit: BoxFit.fitWidth,
-                                      ),
-                                    ),
-                                    fit: BoxFit.cover,
-                                  )),
+                                borderRadius: BorderRadius.circular(10),
+                                child: CachedNetworkImage(
+                                  imageUrl: block.extInfos![index].resource!.mlogBaseData!.coverUrl!,
+                                  width: 100,
+                                  height: 150,
+                                  placeholder: (_, __) => Image.asset('assets/images/default_pic.png'),
+                                  errorWidget: (_, __, ___) => Image.asset('assets/images/default_pic.png'),
+                                  fit: BoxFit.fitHeight,
+                                ),
+                              ),
                               Positioned(
                                 child: _itemPlayCountStyle(DiscoveryPageController.to.abbreviatedNumber(
                                     block.extInfos![index].resource!.mlogExtVO!.playCount!.toString())),
@@ -629,10 +583,7 @@ class DiscoveryPage extends BaseStatelessWidget<DiscoveryPageController> {
 
   ///item副标题（页面导航按钮例如‘更多>’） 字体
   Widget _itemButtonText(String text) {
-    return Text(
-      text,
-      style: TextStyle(color: Colours.app_main_text, fontSize: 13),
-    );
+    return Text(text, style: TextStyle(color: Colours.app_main_text, fontSize: 13));
   }
 
   ///item播放量样式
