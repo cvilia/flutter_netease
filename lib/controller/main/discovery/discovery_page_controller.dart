@@ -9,12 +9,12 @@ import 'package:flutter_netease/http/api.dart';
 import 'package:flutter_netease/http/dio_helper.dart';
 import 'package:flutter_netease/model/discovery/block/block_bean.dart';
 import 'package:flutter_netease/model/discovery/discovery_bean.dart';
-import 'package:flutter_netease/util/sp_util.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 ///首页 发现模块controller
 class DiscoveryPageController extends BaseGetController {
+  static const String TAG = 'DiscoveryPageController';
   bool? hasMore;
   var blocks = RxList<BlockBean>();
   String? cursor;
@@ -85,21 +85,21 @@ class DiscoveryPageController extends BaseGetController {
   @override
   void onInit() async {
     super.onInit();
-    refreshController = RefreshController();
+    refreshController = RefreshController(initialRefresh: true);
     globalKey.value = GlobalKey();
   }
 
   Future<void> refreshData() async {
     dioHelper.get(
       Api.GET_DISCOVERY_DATA,
-      params: {'cookie': await MMKV.getString(Constant.SP_USER_COOKIE), cursor: cursor},
+      params: {'cookie': await MMKV.getString(Constant.SP_USER_COOKIE), 'cursor': cursor},
       callBack: (response) {
-        if (refreshController.isRefresh) refreshController.refreshCompleted();
+        refreshController.refreshCompleted();
         var jsonMap = jsonDecode(response.data);
         if (jsonMap['code'] == 200) {
           DiscoveryBean discoveryBean = DiscoveryBean.fromJson(jsonMap);
           if (discoveryBean.data != null && discoveryBean.data!.blocks != null) {
-            cursor = discoveryBean.data!.cursor!;
+            cursor = discoveryBean.data!.cursor;
             hasMore = discoveryBean.data!.hasMore;
             blocks.value = discoveryBean.data!.blocks!;
             pageStatus.value = PageStatus.OK;
@@ -117,7 +117,7 @@ class DiscoveryPageController extends BaseGetController {
     if (hasMore != null && !hasMore!) return;
     dioHelper.get(
       Api.GET_DISCOVERY_DATA,
-      params: {'cookie': await MMKV.getString(Constant.SP_USER_COOKIE), cursor: cursor},
+      params: {'cookie': await MMKV.getString(Constant.SP_USER_COOKIE), 'cursor': cursor},
       callBack: (response) {
         if (refreshController.isLoading) refreshController.loadComplete();
         var jsonMap = jsonDecode(response.data);

@@ -4,9 +4,10 @@ import 'package:flutter_netease/controller/launcher_controller.dart';
 import 'package:flutter_netease/widget/app_background.dart';
 import 'package:get/get.dart';
 
-class LauncherPage extends GetView<LauncherController> {
+class LauncherPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    var controller = Get.put(LauncherController());
     return AppBackground(
       child: Scaffold(
         backgroundColor: Colors.transparent,

@@ -16,24 +16,19 @@ class DioHelper {
       responseType: ResponseType.plain,
     );
     _dio = Dio(options);
-    (_dio!.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
-        (client) {
-      client.badCertificateCallback =
-          (X509Certificate cert, String host, int port) {
+    (_dio!.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate = (client) {
+      client.badCertificateCallback = (X509Certificate cert, String host, int port) {
         return true;
       };
     };
   }
 
-  Future<void> get(String url, {Map? params, DioCallBack? callBack}) async {
+  Future<void> get(String url, {Map<String, dynamic>? params, required DioCallBack callBack}) async {
     try {
-      callBack!(await _dio!.get(url,
-          queryParameters:
-              params == null ? null : Map<String, dynamic>.from(params)));
+      callBack(await _dio!.get(url, queryParameters: params));
     } on DioError catch (e) {
-      print(
-          '\nget请求错误url:$url,\nmessage:${e.message}\nbody:${e.response.toString()}');
-      callBack!(e.response!);
+      print('\nget请求错误url:$url,\nmessage:${e.message}\nbody:${e.response.toString()}');
+      callBack(e.response!);
     }
   }
 

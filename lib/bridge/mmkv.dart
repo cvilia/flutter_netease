@@ -32,8 +32,8 @@ class MMKV {
   }
 
   static Future<String?> getString(String key, {String? defaultValue = ''}) async {
-    if (await _invokeGet('getString', key) == '') return null;
-    return await _invokeGet('getString', key);
+    if (await _invokeGet('getString', key, defaultValue: defaultValue) == '') return null;
+    return await _invokeGet('getString', key, defaultValue: defaultValue);
   }
 
   static Future<bool> getBool(String key, {bool? defaultValue = false}) async {

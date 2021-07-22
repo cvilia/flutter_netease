@@ -11,12 +11,12 @@ import 'discovery/discovery_page.dart';
 import 'my/my_page.dart';
 import 'podcast/podcast_page.dart';
 
-List<Widget> pages = [DiscoveryPage(), PodcastPage(), MyPage(), KTVPage(), CloudPage()];
 
 class MainPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var controller = Get.put(MainPageController());
+    List<Widget> pages = [DiscoveryPage(), PodcastPage(), MyPage(), KTVPage(), CloudPage()];
     return AppBackground(
       child: Obx(
         () => Scaffold(
