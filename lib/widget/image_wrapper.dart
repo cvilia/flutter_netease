@@ -1,9 +1,7 @@
-import 'dart:math';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_netease/config/colours.dart';
 
 class ImageWrapper extends StatelessWidget {
   final String url;

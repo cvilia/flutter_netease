@@ -1,4 +1,3 @@
-import 'dart:convert';
 
 import 'package:flutter_netease/model/user/user_account_bean.dart';
 import 'package:flutter_netease/model/user/user_bind_info_bean.dart';

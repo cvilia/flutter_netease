@@ -6,10 +6,8 @@ import 'package:flutter/material.dart';
 class MyBehavior extends ScrollBehavior{
 
   @override
-  Widget buildViewportChrome(BuildContext context, Widget child, AxisDirection axisDirection) {
-    if(Platform.isAndroid||Platform.isFuchsia){
-      return child;
-    }
-    return super.buildViewportChrome(context, child, axisDirection);
+  Widget buildOverscrollIndicator(BuildContext context, Widget child, ScrollableDetails details) {
+    if (Platform.isAndroid) return child;
+    return super.buildOverscrollIndicator(context, child, details);
   }
 }

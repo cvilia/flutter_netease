@@ -1,14 +1,13 @@
+import 'package:flutter/material.dart';
 import 'dart:ui';
 
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_card_swipper/flutter_card_swiper.dart';
 import 'package:flutter_card_swipper/widgets/flutter_page_indicator/flutter_page_indicator.dart';
 import 'package:flutter_netease/base/base_stateless_widget.dart';
 import 'package:flutter_netease/config/colours.dart';
 import 'package:flutter_netease/controller/main/discovery/discovery_page_controller.dart';
+import 'package:flutter_netease/interface/custom_call_back.dart';
 import 'package:flutter_netease/model/discovery/block/banner/discovery_banner_bean.dart';
 import 'package:flutter_netease/model/discovery/block/block_bean.dart';
 import 'package:flutter_netease/model/discovery/block/creatives/resource_bean.dart';
@@ -65,29 +64,30 @@ class DiscoveryPage extends BaseStatelessWidget<DiscoveryPageController> {
       shrinkWrap: true,
       itemBuilder: (ctx, index) {
         if (index == 0) {
-          return _itemContent(controller.blocks[0], controller.blocks[0].blockCode);
+          return _itemContent(controller.blocks[0], controller.blocks[0].blockCode!);
         } else if (index == 1) {
           return _itemContent(null, 'DISCOVERY_OUT_SERVER');
         } else {
-          return _itemContent(controller.blocks[index - 1], controller.blocks[index - 1].blockCode);
+          return _itemContent(controller.blocks[index - 1], controller.blocks[index - 1].blockCode!);
         }
       },
-      separatorBuilder: (ctx, index) => Container(height: 20, width: double.infinity),
+      separatorBuilder: (ctx, index) => Container(height: 10, width: double.infinity),
       itemCount: controller.blocks.length + 1,
     );
   }
 
   ///因为中间加了banner下面的小部件，所以block可能为空，这时候showType也为空
-  Widget _itemContent(BlockBean? block, String? showType) {
+  Widget _itemContent(BlockBean? block, String showType) {
     Widget child;
-    if (showType == 'HOMEPAGE_BANNER') {
-      child = _bannerContent(block!);
-    } else if (showType == 'DISCOVERY_OUT_SERVER') {
-      child = _itemFunctionWidgets();
-    } else if (showType == 'HOMEPAGE_BLOCK_PLAYLIST_RCMD') {
-      ///推荐歌单
-      child = _itemRecommendSongList(block!);
-    } else if (showType == 'HOMEPAGE_BLOCK_STYLE_RCMD') {
+    switch (showType) {
+      case 'HOMEPAGE_BANNER': //轮播图
+        return PageSwiper(block: block!);
+      case 'DISCOVERY_OUT_SERVER': //轮播图下方的小部件
+        return FunctionsWidget();
+      case 'HOMEPAGE_BLOCK_PLAYLIST_RCMD': //推荐歌单
+        return RecommendSongList(block: block!);
+    }
+    if (showType == 'HOMEPAGE_BLOCK_STYLE_RCMD') {
       ///二次元里的惊喜世界
       child = _itemOfficialRecommendSongs(block!);
     } else if (showType == 'HOMEPAGE_MUSIC_MLOG') {
@@ -127,212 +127,14 @@ class DiscoveryPage extends BaseStatelessWidget<DiscoveryPageController> {
       ///云村KTV
       child = Container();
     } else {
-      child = _itemFunctionWidgets();
+      child = Container();
     }
     return child;
   }
 
-  ///顶部banner
-  Widget _bannerContent(BlockBean block) {
-    List<DiscoveryBannerBean> banners = block.extInfo!.banners!;
-    return Container(
-      height: 140,
-      child: Swiper(
-        itemCount: banners.length,
-        autoplay: true,
-        indicatorLayout: PageIndicatorLayout.COLOR,
-        onIndexChanged: (index) => DiscoveryPageController.to.onBannerCardClicked(),
-        itemBuilder: (ctx, index) {
-          return Container(
-            padding: EdgeInsets.symmetric(horizontal: 15),
-            child: Stack(
-              children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(10),
-                  child: CachedNetworkImage(
-                    width: double.infinity,
-                    height: 140,
-                    imageUrl: banners[index].pic!,
-                    fit: BoxFit.cover,
-                  ),
-                ),
-                Positioned(
-                    child: Container(
-                      padding: EdgeInsets.symmetric(horizontal: 5, vertical: 2),
-                      decoration: BoxDecoration(
-                          color: Colors.red,
-                          borderRadius:
-                              BorderRadius.only(topLeft: Radius.circular(10), bottomRight: Radius.circular(10))),
-                      child: Text(
-                        banners[index].typeTitle!,
-                        style: TextStyle(color: Colors.white, fontSize: 12),
-                      ),
-                    ),
-                    bottom: 0,
-                    right: 0)
-              ],
-            ),
-          );
-        },
-      ),
-    );
-  }
-
-  ///banner 下面横向滑动的小部件
-  Widget _itemFunctionWidgets() {
-    return Container(
-      height: 80,
-      child: ListView(
-        key: DiscoveryPageController.to.globalKey.value,
-        scrollDirection: Axis.horizontal,
-        children: [
-          _baseItemFunction('每日推荐', 'assets/images/main_page/function_widgets/discovery_day_recommend_icon.png',
-              () => DiscoveryPageController.to.onClickDayRecommend()),
-          _baseItemFunction('私人FM', 'assets/images/main_page/function_widgets/discovery_privacy_fm_icon.png',
-              () => DiscoveryPageController.to.onClickPrivacyFM()),
-          _baseItemFunction('歌单', 'assets/images/main_page/function_widgets/discovery_song_list_icon.png',
-              () => DiscoveryPageController.to.onClickSongList()),
-          _baseItemFunction('排行榜', 'assets/images/main_page/function_widgets/discovery_rank_list_icon.png',
-              () => DiscoveryPageController.to.onClickRank()),
-          _baseItemFunction('直播', 'assets/images/main_page/function_widgets/discovery_live_icon.png',
-              () => DiscoveryPageController.to.onClickLive()),
-          _baseItemFunction('数字专辑', 'assets/images/main_page/function_widgets/discovery_number_album_icon.png',
-              () => DiscoveryPageController.to.onClickNumberAlbum()),
-          _baseItemFunction('专注冥想', 'assets/images/main_page/function_widgets/discovery_meditation_icon.png',
-              () => DiscoveryPageController.to.onClickMeditation()),
-          _baseItemFunction('歌房', 'assets/images/main_page/function_widgets/discovery_song_room_icon.png',
-              () => DiscoveryPageController.to.onClickSongRoom()),
-          _baseItemFunction('游戏专区', 'assets/images/main_page/function_widgets/discovery_games_icon.png',
-              () => DiscoveryPageController.to.onClickGames(),
-              needMarginRight: true),
-        ],
-      ),
-    );
-  }
-
-  ///banner下面横向滑动小部件的base widget
-  Widget _baseItemFunction(String text, String assetImage, OnFunctionWidgetClick onFunctionWidgetClick,
-      {bool needMarginRight = false}) {
-    return Container(
-      margin: EdgeInsets.only(left: 15, right: needMarginRight ? 15 : 0),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          GestureDetector(
-            onTap: onFunctionWidgetClick,
-            child: CircleAvatar(
-              radius: 25,
-              backgroundColor: Colours.discovery_function_widget_background,
-              child: Image.asset(assetImage, width: 25),
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.only(top: 8),
-            child: Text(
-              text,
-              style: TextStyle(color: Colours.app_main_text, fontSize: 12, fontWeight: FontWeight.w500),
-            ),
-          )
-        ],
-      ),
-    );
-  }
-
-  ///推荐歌单
-  Widget _itemRecommendSongList(BlockBean block) {
-    return Container(
-      padding: EdgeInsets.symmetric(vertical: 10),
-      decoration: BoxDecoration(borderRadius: BorderRadius.circular(15), color: Colors.red),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Container(
-            width: double.infinity,
-            alignment: Alignment.center,
-            padding: EdgeInsets.symmetric(horizontal: 15),
-            margin: EdgeInsets.only(bottom: 10),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                _itemSubTitle(block.uiElement!.subTitle!.title!),
-                _itemButtonBorder(Row(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    _itemButtonText(block.uiElement!.button!.text!),
-                    SizedBox(
-                      width: 8,
-                      child: Image.asset(
-                        'assets/images/main_page/discovery/discovery_item_title_button_right.png',
-                        width: 8,
-                        fit: BoxFit.cover,
-                      ),
-                    )
-                  ],
-                ))
-              ],
-            ),
-          ),
-          Container(
-            height: 130,
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemBuilder: (ctx, index) {
-                return Container(
-                  width: 100,
-                  margin: EdgeInsets.only(
-                      left: index == 0 ? 15 : 5, right: index == (block.creatives!.length - 1) ? 15 : 5),
-                  child: Column(
-                    children: [
-                      Container(
-                        width: 100,
-                        alignment: Alignment.center,
-                        child: Stack(
-                          children: [
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(10),
-                              child: CachedNetworkImage(
-                                imageUrl: block.creatives![index].uiElement!.image!.imageUrl!,
-                                height: 100,
-                                placeholder: (_, __) => Image.asset('assets/images/default_pic.png'),
-                                errorWidget: (_, __, ___) => Image.asset('assets/images/default_pic.png'),
-                                fit: BoxFit.fitHeight,
-                              ),
-                            ),
-                            Positioned(
-                              child: _itemPlayCountStyle(DiscoveryPageController.to.abbreviatedNumber(
-                                  block.creatives![index].resources![0].resourceExtInfo!.playCount!)),
-                              top: 2,
-                              right: 2,
-                            )
-                          ],
-                        ),
-                      ),
-                      Text(
-                        block.creatives![index].uiElement!.mainTitle!.title!,
-                        maxLines: 2,
-                        softWrap: true,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(color: Colours.app_main_text, fontSize: 10),
-                      )
-                    ],
-                  ),
-                );
-              },
-              itemCount: block.creatives!.length,
-            ),
-          )
-        ],
-      ),
-    );
-  }
-
   ///二次元里的惊喜世界
   Widget _itemOfficialRecommendSongs(BlockBean block) {
-    return Container(
-      padding: EdgeInsets.symmetric(vertical: 10),
-      decoration: BoxDecoration(borderRadius: BorderRadius.circular(15), color: Colors.red),
+    return RoundContainer(
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -614,6 +416,267 @@ class DiscoveryPage extends BaseStatelessWidget<DiscoveryPageController> {
           )
         ],
       ),
+    );
+  }
+}
+
+///页面顶部的轮播图
+class PageSwiper extends StatelessWidget {
+  final BlockBean block;
+
+  const PageSwiper({required this.block});
+
+  @override
+  Widget build(BuildContext context) {
+    List<DiscoveryBannerBean> banners = block.extInfo!.banners!;
+    return Container(
+      height: 150,
+      child: Swiper(
+        itemCount: banners.length,
+        autoplay: true,
+        indicatorLayout: PageIndicatorLayout.COLOR,
+        itemBuilder: (ctx, index) {
+          return GestureDetector(
+            child: Container(
+              padding: EdgeInsets.symmetric(horizontal: 15),
+              child: Stack(
+                alignment: Alignment.bottomRight,
+                children: [
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(10),
+                    child: CachedNetworkImage(height: 150, imageUrl: banners[index].pic!, fit: BoxFit.fitHeight),
+                  ),
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 5, vertical: 2),
+                    decoration: BoxDecoration(
+                      color: Colours.app_main,
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(10),
+                        bottomRight: Radius.circular(10),
+                      ),
+                    ),
+                    child: Text(banners[index].typeTitle!, style: TextStyle(color: Colors.white, fontSize: 12)),
+                  )
+                ],
+              ),
+            ),
+            onTap: () => Get.find<DiscoveryPageController>().onSwiperClicked(banners[index]),
+          );
+        },
+      ),
+    );
+  }
+}
+
+///轮播图下面的一排功能组件
+class FunctionsWidget extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    var controller = Get.find<DiscoveryPageController>();
+    return Container(
+      height: 80,
+      child: ListView(
+        scrollDirection: Axis.horizontal,
+        children: [
+          _widgetItem('每日推荐', 'discovery_day_recommend_icon.png', () => controller.onClickDayRecommend()),
+          _widgetItem('私人FM', 'discovery_privacy_fm_icon.png', () => controller.onClickPrivacyFM()),
+          _widgetItem('歌单', 'discovery_song_list_icon.png', () => controller.onClickSongList()),
+          _widgetItem('排行榜', 'discovery_rank_list_icon.png', () => controller.onClickRank()),
+          _widgetItem('直播', 'discovery_live_icon.png', () => controller.onClickLive()),
+          _widgetItem('数字专辑', 'discovery_number_album_icon.png', () => controller.onClickNumberAlbum()),
+          _widgetItem('专注冥想', 'discovery_meditation_icon.png', () => controller.onClickMeditation()),
+          _widgetItem('歌房', 'discovery_song_room_icon.png', () => controller.onClickSongRoom()),
+          _widgetItem('游戏专区', 'discovery_games_icon.png', () => controller.onClickGames(), needMarginRight: true),
+        ],
+      ),
+    );
+  }
+
+  ///banner下面横向滑动小部件的base widget
+  Widget _widgetItem(String text, String assetImage, OnListenerWithOutParam onTap, {bool needMarginRight = false}) {
+    assetImage = 'assets/images/main_page/function_widgets/$assetImage';
+    return Container(
+      margin: EdgeInsets.only(left: 15, right: needMarginRight ? 15 : 0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          GestureDetector(
+            onTap: onTap,
+            child: CircleAvatar(
+              radius: 25,
+              backgroundColor: Colours.discovery_function_widget_background,
+              child: Image.asset(assetImage, width: 25),
+            ),
+          ),
+          Text(text, style: TextStyle(color: Colours.app_main_text, fontSize: 12, fontWeight: FontWeight.w500))
+        ],
+      ),
+    );
+  }
+}
+
+///推荐歌单
+class RecommendSongList extends StatelessWidget {
+  final BlockBean block;
+
+  const RecommendSongList({required this.block});
+
+  @override
+  Widget build(BuildContext context) {
+    var controller = Get.find<DiscoveryPageController>();
+    return RoundContainer(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          ItemTopRowTitle(
+            block: block,
+            iconRight: true,
+            onTap: () => controller.onClickRecommendSongListSubTitle(block),
+          ),
+          Container(
+            height: 140,
+            margin: EdgeInsets.only(top: 5),
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemBuilder: (ctx, index) {
+                return Container(
+                  width: 100,
+                  margin: EdgeInsets.only(
+                      left: index == 0 ? 15 : 5, right: index == (block.creatives!.length - 1) ? 15 : 5),
+                  child: Column(
+                    children: [
+                      Container(
+                        width: 100,
+                        height: 100,
+                        alignment: Alignment.center,
+                        child: Stack(
+                          children: [
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(10),
+                              child: CachedNetworkImage(
+                                imageUrl: block.creatives![index].uiElement!.image!.imageUrl!,
+                                height: 100,
+                                fit: BoxFit.fitHeight,
+                              ),
+                            ),
+                            Positioned(
+                              child: PlayCount(
+                                  count: controller.abbreviatedNumber(
+                                      block.creatives![index].resources![0].resourceExtInfo!.playCount!)),
+                              right: 5,
+                              top: 5,
+                            ),
+                          ],
+                        ),
+                      ),
+                      Text(
+                        block.creatives![index].uiElement!.mainTitle!.title!,
+                        maxLines: 2,
+                        softWrap: true,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(color: Colours.app_main_text, fontSize: 11),
+                      )
+                    ],
+                  ),
+                );
+              },
+              itemCount: block.creatives!.length,
+            ),
+          )
+        ],
+      ),
+    );
+  }
+}
+
+///播放量样式
+class PlayCount extends StatelessWidget {
+  final String count;
+
+  const PlayCount({required this.count});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      alignment: Alignment.center,
+      padding: EdgeInsets.symmetric(horizontal: 5),
+      decoration: BoxDecoration(color: Colors.white.withAlpha(50), borderRadius: BorderRadius.circular(10)),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(Icons.play_arrow_outlined, color: Colors.white, size: 17),
+          Text(count, style: TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.w500))
+        ],
+      ),
+    );
+  }
+}
+
+///每一个Item顶部的横向title
+class ItemTopRowTitle extends StatelessWidget {
+  final BlockBean block;
+  final bool? iconRight;
+  final OnListenerWithOutParam onTap;
+
+  const ItemTopRowTitle({required this.block, this.iconRight, required this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 15),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(block.uiElement!.subTitle!.title!,
+              style: TextStyle(color: Colours.app_main_text, fontWeight: FontWeight.w500, fontSize: 15)),
+          if (iconRight != null)
+            GestureDetector(
+              onTap: onTap,
+              child: Container(
+                padding: EdgeInsets.symmetric(horizontal: 5),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(10),
+                  border: Border.all(color: Colours.app_main_border, width: 0.5),
+                ),
+                child: _rightChild(block.uiElement!.button!.text!),
+              ),
+            ),
+        ],
+      ),
+    );
+  }
+
+  Widget _rightChild(String text) {
+    List<Widget> children = iconRight!
+        ? [
+            Text(text, style: TextStyle(color: Colours.app_main_text, fontSize: 13)),
+            Icon(Icons.arrow_forward_ios_sharp, color: Colours.app_main_text, size: 13)
+          ]
+        : [
+            Icon(Icons.arrow_forward_ios_sharp, color: Colours.app_main_text, size: 13),
+            Text(text, style: TextStyle(color: Colours.app_main_text, fontSize: 13))
+          ];
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: children,
+    );
+  }
+}
+
+///圆角，白底，带上下内边距的Container
+class RoundContainer extends StatelessWidget {
+  final Widget child;
+
+  const RoundContainer({required this.child});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.symmetric(vertical: 10),
+      decoration: BoxDecoration(borderRadius: BorderRadius.circular(15), color: Colors.white),
+      child: child,
     );
   }
 }

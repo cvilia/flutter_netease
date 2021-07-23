@@ -1,4 +1,3 @@
-import 'package:flutter/services.dart';
 import 'package:flutter_netease/channel/channel_id.dart';
 
 class FlutterBridge {

@@ -33,14 +33,12 @@ class MainPageController extends GetxController {
     var map = {"method": "mobile", "format": "json", "lx": "suiji"};
     dioHelper.get("https://api.btstu.cn/sjbz/api.php", params: map,
         callBack: (response) {
-      if (response != null) {
-        var json = jsonDecode(response.data.toString());
+          var json = jsonDecode(response.data.toString());
 
-        ///该接口返回的字段均为String类型
-        if (json['code'] == '200' && json['imgurl'] != null) {
-          SpUtil.putString(Constant.SP_LAUNCHER_IMG_URL, json['imgurl']);
-        }
-      }
+          ///该接口返回的字段均为String类型
+          if (json['code'] == '200' && json['imgurl'] != null) {
+            SpUtil.putString(Constant.SP_LAUNCHER_IMG_URL, json['imgurl']);
+          }
     });
   }
 }

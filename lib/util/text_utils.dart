@@ -6,7 +6,7 @@ import 'package:crypto/crypto.dart';
 class TextUtils {
   ///判断字符串是否为空
   static bool isEmpty(String str) {
-    return str.isEmpty || str == null;
+    return str.isEmpty;
   }
 
   ///计算md5

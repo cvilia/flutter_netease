@@ -1,12 +1,12 @@
 import 'dart:convert';
 
-import 'package:flutter/material.dart';
 import 'package:flutter_netease/base/base_get_controller.dart';
 import 'package:flutter_netease/bridge/mmkv.dart';
 import 'package:flutter_netease/config/constant.dart';
 import 'package:flutter_netease/config/page_status.dart';
 import 'package:flutter_netease/http/api.dart';
 import 'package:flutter_netease/http/dio_helper.dart';
+import 'package:flutter_netease/model/discovery/block/banner/discovery_banner_bean.dart';
 import 'package:flutter_netease/model/discovery/block/block_bean.dart';
 import 'package:flutter_netease/model/discovery/discovery_bean.dart';
 import 'package:get/get.dart';
@@ -22,8 +22,6 @@ class DiscoveryPageController extends BaseGetController {
 
   var currentBlockItems = 0.obs;
   late RefreshController refreshController;
-
-  var globalKey = Rxn<GlobalKey>();
 
   static DiscoveryPageController get to => Get.find();
 
@@ -86,7 +84,6 @@ class DiscoveryPageController extends BaseGetController {
   void onInit() async {
     super.onInit();
     refreshController = RefreshController(initialRefresh: true);
-    globalKey.value = GlobalKey();
   }
 
   Future<void> refreshData() async {
@@ -137,4 +134,12 @@ class DiscoveryPageController extends BaseGetController {
       },
     );
   }
+
+  ///点击Swiper中的图片
+  void onSwiperClicked(DiscoveryBannerBean banner) {
+    ///TODO 轮播图点击事件
+  }
+
+  ///点击了推荐歌单右上角的更多
+  void onClickRecommendSongListSubTitle(BlockBean block) {}
 }

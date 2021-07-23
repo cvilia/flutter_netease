@@ -1,4 +1,3 @@
-import 'package:json_annotation/json_annotation.dart';
 
 /// description : ""
 /// vipType : 0
@@ -53,7 +52,7 @@ class UserProfileBean {
   int? djStatus;
   ///该字段返回的结果是{}，初步判断用不上，不再处理
   // dynamic? experts;
-  dynamic? expertTags;
+  dynamic expertTags;
   int? authStatus;
   int? userType;
   bool? followed;
@@ -61,7 +60,7 @@ class UserProfileBean {
   String? detailDescription;
   int? userId;
   bool? mutual;
-  dynamic? remarkName;
+  dynamic remarkName;
   String? signature;
   int? authority;
 
@@ -71,7 +70,7 @@ class UserProfileBean {
   int? followeds;
   int? follows;
   int? eventCount;
-  dynamic? avatarDetail;
+  dynamic avatarDetail;
   int? playlistCount;
   int? playlistBeSubscribedCount;
 
