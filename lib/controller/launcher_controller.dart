@@ -19,7 +19,7 @@ class LauncherController extends GetxController {
     imgUrl.value = await SpUtil.getString(Constant.SP_LAUNCHER_IMG_URL);
     _timer = Timer.periodic(Duration(seconds: 1), (timer) async {
       count.value++;
-      if (count.value == 1) {
+      if (count.value == 3) {
         timer.cancel();
         var permissionStatus = Permission.storage.request();
         if (await permissionStatus.isGranted) {

@@ -18,13 +18,12 @@ class LauncherPage extends StatelessWidget {
                     width: double.infinity,
                     height: double.infinity,
                     decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                            colors: [
-                          Colours.app_main_background,
-                          Colours.app_main
-                        ])),
+                      gradient: LinearGradient(
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                        colors: [Colours.app_main_background, Colours.app_main],
+                      ),
+                    ),
                   )
                 : Image.network(
                     controller.imgUrl.value!,

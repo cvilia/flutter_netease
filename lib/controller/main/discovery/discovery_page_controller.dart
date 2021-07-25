@@ -142,4 +142,7 @@ class DiscoveryPageController extends BaseGetController {
 
   ///点击了推荐歌单右上角的更多
   void onClickRecommendSongListSubTitle(BlockBean block) {}
+
+  ///点击了二次元的惊喜世界右上角
+  void onClickOfficialRecommendSongsSubTitle() {}
 }
