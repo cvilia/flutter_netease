@@ -134,7 +134,7 @@ class PageSwiper extends StatelessWidget {
                 children: [
                   ClipRRect(
                     borderRadius: BorderRadius.circular(10),
-                    child: CachedNetworkImage(height: 150, imageUrl: banners[index].pic!, fit: BoxFit.fitHeight),
+                    child: CachedNetworkImage(height: 150, width:double.infinity,imageUrl: banners[index].pic!, fit: BoxFit.cover),
                   ),
                   Container(
                     padding: EdgeInsets.symmetric(horizontal: 5, vertical: 2),

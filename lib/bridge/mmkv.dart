@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:flutter/services.dart';
 
 import 'log.dart';
@@ -27,7 +25,7 @@ class MMKV {
     return await _invokeGet('getInt', key, defaultValue: defaultValue);
   }
 
-  static Future<Double> getDouble(String key, {double? defaultValue = -1.0}) async {
+  static Future<double> getDouble(String key, {double? defaultValue = -1.0}) async {
     return await _invokeGet('getDouble', key, defaultValue: defaultValue);
   }
 
