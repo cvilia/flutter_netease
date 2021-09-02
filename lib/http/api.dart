@@ -12,4 +12,5 @@ class Api {
   static const String GET_DISCOVERY_DATA =
       '/homepage/block/page'; //获取发现页完整数据 可选参数refresh，是否刷新数据，默认为true
   static const String GET_BANNER = '/banner'; //获取首页banner数据（精简v1.0）
+  static const String GET_DAY_RECOMMEND = '/recommend/songs'; //获取每日推荐歌单
 }

@@ -14,23 +14,9 @@ class LauncherPage extends StatelessWidget {
         body: Center(
           child: Obx(
             () => controller.imgUrl.value == null
-                ? Container(
-                    width: double.infinity,
-                    height: double.infinity,
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                        colors: [Colours.app_main_background, Colours.app_main],
-                      ),
-                    ),
-                  )
-                : Image.network(
-                    controller.imgUrl.value!,
-                    fit: BoxFit.cover,
-                    height: double.infinity,
-                    width: double.infinity,
-                  ),
+                ? Container(width: double.infinity, height: double.infinity, color: Colours.app_main)
+                : Image.network(controller.imgUrl.value!,
+                    fit: BoxFit.cover, height: double.infinity, width: double.infinity),
           ),
         ),
       ),

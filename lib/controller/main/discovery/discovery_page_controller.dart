@@ -9,6 +9,7 @@ import 'package:flutter_netease/http/dio_helper.dart';
 import 'package:flutter_netease/model/discovery/block/banner/discovery_banner_bean.dart';
 import 'package:flutter_netease/model/discovery/block/block_bean.dart';
 import 'package:flutter_netease/model/discovery/discovery_bean.dart';
+import 'package:flutter_netease/page/main/discovery/day_recommend_page.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -52,9 +53,7 @@ class DiscoveryPageController extends BaseGetController {
   void onBannerCardClicked() {}
 
   ///点击每日推荐
-  void onClickDayRecommend() {
-    print('每日推荐');
-  }
+  void onClickDayRecommend() => Get.to(DayRecommendPage());
 
   ///点击私人fm
   void onClickPrivacyFM() {}
