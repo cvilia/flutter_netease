@@ -22,7 +22,7 @@ void main() {
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
 
     ///隐藏手机底部的导航条
-    SystemChrome.setEnabledSystemUIOverlays([SystemUiOverlay.top]);
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual);
     SystemUiOverlayStyle dark =
         SystemUiOverlayStyle(statusBarColor: Colors.transparent, statusBarIconBrightness: Brightness.dark);
     SystemChrome.setSystemUIOverlayStyle(dark);
